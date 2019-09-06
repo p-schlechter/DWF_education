@@ -1,0 +1,260 @@
+PROCEDURE "NDSO::SalesOrder.LOAD" (
+	IN IN_SOURCE_TABLE "NDSO::SalesOrder.NDSO.loadProcInput",
+	IN IN_PARAMETERS_JSON NCLOB)
+LANGUAGE SQLSCRIPT SQL SECURITY INVOKER AS
+BEGIN
+	--NDSO Load procedure - ifVersion: 1.0
+
+	DECLARE opId				INTEGER = -1;
+	DECLARE reqId				INTEGER = -1;
+	DECLARE posIt				INTEGER = 0;
+	DECLARE ndsoName 			NVARCHAR(128) = 'NDSO::SalesOrder.NDSO';
+	DECLARE inboundQueueName	NVARCHAR(256);
+	DECLARE generateRowId		BOOLEAN;
+	DECLARE recordNoValue		NVARCHAR(32) = '';
+
+	--Define exit handler
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION BEGIN
+		BEGIN AUTONOMOUS TRANSACTION
+			UPDATE "NDSO::SalesOrder.NDSO.operationHistory" SET
+				"technicalAttributes.status" = 'FAILED',
+				"technicalAttributes.lastTimestamp" = CURRENT_UTCTIMESTAMP
+			WHERE "technicalKey.operationId" = :opId;
+
+			posIt = :posIt + 1;
+			INSERT INTO "NDSO::SalesOrder.NDSO.logMessages" (
+				"technicalKey.operationId",
+				"technicalKey.posit",
+				"technicalAttributes.timestamp",
+				"technicalAttributes.msgType",
+				"technicalAttributes.msgNumber",
+				"technicalAttributes.msgText")
+			VALUES (:opId, :posIt, CURRENT_UTCTIMESTAMP, 'E', 99999, ::SQL_ERROR_CODE || ' - ' || ::SQL_ERROR_MESSAGE);
+
+			posIt = :posIt + 1;
+			INSERT INTO "NDSO::SalesOrder.NDSO.logMessages" (
+				"technicalKey.operationId",
+				"technicalKey.posit",
+				"technicalAttributes.timestamp",
+				"technicalAttributes.msgType",
+				"technicalAttributes.msgNumber",
+				"technicalAttributes.msgText")
+			VALUES (:opId, :posIt, CURRENT_UTCTIMESTAMP, 'E', 5103, 'Inserting via procedure failed');
+		END;
+	END;
+
+	--Parse input parameters
+	SELECT
+		ESCAPE_SINGLE_QUOTES(
+			JSON_VALUE(:IN_PARAMETERS_JSON,'strict $.inboundQueue' RETURNING NVARCHAR(256) ERROR ON ERROR)
+		) INTO inboundQueueName
+	FROM "DataWarehouse.DataStore::DUMMY";
+
+	SELECT
+		TO_BOOLEAN(
+			JSON_VALUE(:IN_PARAMETERS_JSON,'strict $.fillRecordNo' RETURNING NVARCHAR(256) ERROR ON ERROR)
+		) INTO generateRowId
+	FROM "DataWarehouse.DataStore::DUMMY";
+
+	BEGIN AUTONOMOUS TRANSACTION
+		--Get Operation Id
+		SELECT "NDSO::SalesOrder.sequence".nextval INTO opId FROM "DataWarehouse.DataStore::DUMMY";
+
+		INSERT INTO "NDSO::SalesOrder.NDSO.idGen" (
+			"technicalKey.id",
+			"technicalAttributes.type")
+		VALUES (:opId, 'OPERATION_REQUEST');
+
+		INSERT INTO "NDSO::SalesOrder.NDSO.operationHistory" (
+			"technicalKey.operationId",
+			"technicalAttributes.operation",
+			"technicalAttributes.userName",
+			"technicalAttributes.startTimestamp",
+			"technicalAttributes.lastTimestamp",
+			"technicalAttributes.status",
+			"technicalAttributes.operationDetails")
+		VALUES (:opId, 'LOAD', SESSION_CONTEXT('XS_APPLICATIONUSER'), CURRENT_UTCTIMESTAMP, CURRENT_UTCTIMESTAMP, 'RUNNING', '');
+
+		posIt = :posIt + 1;
+		INSERT INTO "NDSO::SalesOrder.NDSO.logMessages" (
+			"technicalKey.operationId",
+			"technicalKey.posit",
+			"technicalAttributes.timestamp",
+			"technicalAttributes.msgType",
+			"technicalAttributes.msgNumber",
+			"technicalAttributes.msgText")
+		VALUES (:opId, :posIt, CURRENT_UTCTIMESTAMP, 'I', 5101, 'Start inserting via procedure into inbound queue ' || :inboundQueueName);
+
+		--Get Request Id
+		SELECT "NDSO::SalesOrder.sequence".nextval INTO reqId FROM "DataWarehouse.DataStore::DUMMY";
+
+		INSERT INTO "NDSO::SalesOrder.NDSO.idGen" (
+			"technicalKey.id",
+			"technicalAttributes.type")
+		VALUES (:reqId, 'LOAD_REQUEST');
+
+		INSERT INTO "NDSO::SalesOrder.NDSO.affectedRequests" (
+			"technicalKey.operationId",
+			"technicalKey.requestId")
+		VALUES (:opId, :reqId);
+	END;
+
+	--Immediately update operation entry to lock it (exclude it from repairRunningOperations)
+	UPDATE "NDSO::SalesOrder.NDSO.operationHistory" SET
+		"technicalAttributes.status" = 'FINISHED'
+	WHERE "technicalKey.operationId" = :opId;
+
+	--Copy data from input table to the inbound queue (retrieve table columns & replace NULL values)
+	ndsoMetadata =
+		SELECT
+			"D"."ARTIFACT_NAME"			AS "artifName",
+			"D"."ELEMENT_NAME"			AS "elemName",
+			"D"."ARTIFACT_KIND"			AS "artifKind",
+			"D"."PARENT_ELEMENT_NAME"	AS "parentElemName",
+			"D"."SQL_DATA_TYPE_NAME"	AS "sqlDataTypeName",
+			"D"."TYPE_PARAM_1"			AS "typeParam1",
+			"D"."TYPE_PARAM_2"			AS "typeParam2",
+			"D"."IS_KEY"				AS "isKey",
+			"D"."VALUE"					AS "defaultValue",
+			"V"."VALUE"					AS "annotations",
+			"D"."ORDINAL_NUMBER"		AS "ordinalNumber"
+		FROM
+			"DataWarehouse.DataStore::CDS_ARTIFACT_DEFINITION"(::CURRENT_OBJECT_SCHEMA, :ndsoName) AS "D"
+			LEFT OUTER JOIN (
+				SELECT *
+				FROM "DataWarehouse.DataStore::CDS_ANNOTATION_VALUES"
+				WHERE "SCHEMA_NAME" = ::CURRENT_OBJECT_SCHEMA) "V"
+			ON "D"."SCHEMA_NAME" = "V"."SCHEMA_NAME"
+			AND "D"."ARTIFACT_NAME" = "V"."ARTIFACT_NAME"
+			AND "D"."ELEMENT_NAME" = "V"."ELEMENT_NAME"
+		ORDER BY
+			"D"."ORDINAL_NUMBER";
+
+	ndsoColumns =
+		SELECT
+			STRING_AGG(
+				"elemNameEscaped",
+				', ') AS "insertColumns",
+			STRING_AGG(
+				CASE
+					WHEN "isKey" = 'TRUE'
+						THEN "elemNameEscaped"
+					WHEN "sqlDataTypeName" = 'BLOB' OR "sqlDataTypeName" = 'VARBINARY'
+						THEN 'IFNULL(' || "elemNameEscaped" || ', HEXTOBIN(' || "defaultValueFallback" || ')) AS ' || "elemNameEscaped"
+					--HANA workaround(inconsistent datatype error when using IFNULL in BOOLEAN column)
+					WHEN "sqlDataTypeName" = 'BOOLEAN'
+						THEN 'CASE WHEN ' || "elemNameEscaped" || ' IS NULL THEN ' || "defaultValueFallback" || ' ELSE "elemNameEscaped" END AS ' || "elemNameEscaped"
+					ELSE 'IFNULL(' || "elemNameEscaped" || ', ' || "defaultValueFallback" || ') AS ' || "elemNameEscaped"
+				END,
+				', ') AS "selectColumns"
+		FROM (
+			SELECT
+				"elemNameEscaped",
+				"sqlDataTypeName",
+				"isKey",
+				--Combine user default values with fallback values
+				CASE
+					WHEN "sqlDataTypeName" = 'NVARCHAR' OR "sqlDataTypeName" = 'VARCHAR' OR
+						"sqlDataTypeName" = 'TEXT' OR "sqlDataTypeName" = 'CHAR' OR
+						"sqlDataTypeName" = 'NCHAR' OR "sqlDataTypeName" = 'SHORTTEXT' OR
+						"sqlDataTypeName" = 'ALPHANUM' OR "sqlDataTypeName" = 'CLOB' OR
+						"sqlDataTypeName" = 'NCLOB' THEN
+						CASE
+							WHEN "defaultValue" != 'NULL' THEN '''' || "defaultValue" || ''''
+							ELSE ''''''
+						END
+					WHEN "sqlDataTypeName" = 'TINYINT' OR "sqlDataTypeName" = 'SMALLINT' OR
+						"sqlDataTypeName" = 'INTEGER' OR "sqlDataTypeName" = 'BIGINT' OR
+						"sqlDataTypeName" = 'DECIMAL' OR "sqlDataTypeName" = 'SMALLDECIMAL' OR
+						"sqlDataTypeName" = 'REAL' OR "sqlDataTypeName" = 'DOUBLE' THEN
+						CASE
+							WHEN "defaultValue" != 'NULL' THEN '''' || "defaultValue" || ''''
+							ELSE '0'
+						END
+					WHEN "sqlDataTypeName" = 'BOOLEAN' THEN
+						CASE
+							WHEN "defaultValue" != 'NULL' THEN "defaultValue"
+							ELSE 'false'
+						END
+					WHEN "sqlDataTypeName" = 'BLOB' OR "sqlDataTypeName" = 'VARBINARY' THEN
+						CASE
+							WHEN "defaultValue" != 'NULL' THEN '''' || "defaultValue" || ''''
+							ELSE '''00'''
+						END
+					WHEN "sqlDataTypeName" = 'DATE' THEN
+						CASE
+							WHEN "defaultValue" != 'NULL' THEN '''' || "defaultValue" || ''''
+							ELSE '''1900-01-01'''
+						END
+					WHEN "sqlDataTypeName" = 'SECONDDATE' OR "sqlDataTypeName" = 'TIMESTAMP' THEN
+						CASE
+							WHEN "defaultValue" != 'NULL' THEN '''' || "defaultValue" || ''''
+							ELSE '''1900-01-01 00:00:00'''
+						END
+					WHEN "sqlDataTypeName" = 'TIME' THEN
+						CASE
+							WHEN "defaultValue" != 'NULL' THEN '''' || "defaultValue" || ''''
+							ELSE '''00:00:00'''
+						END
+					ELSE '''' || "defaultValue" || ''''
+				END AS "defaultValueFallback"
+			FROM (
+				SELECT
+					'"' || ESCAPE_DOUBLE_QUOTES("elemName") || '"' AS "elemNameEscaped",
+					"sqlDataTypeName",
+					"isKey",
+					"defaultValue"
+				FROM
+					:ndsoMetadata
+				WHERE
+					"artifKind" = 'ELEMENT'
+					AND "artifName" = 'NDSO::SalesOrder.NDSO.active_data'
+					AND ("artifName", "elemName") NOT IN (SELECT "artifName", "parentElemName" FROM :ndsoMetadata)));
+
+	IF :generateRowId = TRUE THEN
+		recordNoValue = 'ROW_NUMBER() OVER () AS ';
+	END IF;
+
+	EXEC
+		'INSERT INTO "' || :inboundQueueName || '" (' ||
+			'"technicalKey.loadId", ' ||
+			'"technicalKey.recordNo", ' ||
+			'"technicalAttributes.recordMode", ' ||
+			:ndsoColumns."insertColumns"[1] || ') ' ||
+		'SELECT ' ||
+			':reqId AS "technicalKey.loadId", ' ||
+			:recordNoValue || '"technicalKey.recordNo", ' ||
+			'"technicalAttributes.recordMode",' ||
+			:ndsoColumns."selectColumns"[1] ||
+		'FROM ' ||
+			':IN_SOURCE_TABLE'
+	USING
+		:reqId,
+		:IN_SOURCE_TABLE;
+
+	posIt = :posIt + 1;
+	INSERT INTO "NDSO::SalesOrder.NDSO.logMessages" (
+		"technicalKey.operationId",
+		"technicalKey.posit",
+		"technicalAttributes.timestamp",
+		"technicalAttributes.msgType",
+		"technicalAttributes.msgNumber",
+		"technicalAttributes.msgText")
+	VALUES (:opId, :posIt, CURRENT_UTCTIMESTAMP, 'I', 99998, 'Modified rows: ' || ::ROWCOUNT || ' inserted, 0 updated, 0 deleted');
+
+	posIt = :posIt + 1;
+	INSERT INTO "NDSO::SalesOrder.NDSO.logMessages" (
+		"technicalKey.operationId",
+		"technicalKey.posit",
+		"technicalAttributes.timestamp",
+		"technicalAttributes.msgType",
+		"technicalAttributes.msgNumber",
+		"technicalAttributes.msgText")
+	VALUES (:opId, :posIt, CURRENT_UTCTIMESTAMP, 'S', 5102, 'Inserting via procedure finished successfully. Load request ID: ' || :reqId);
+
+	--Finally update operation status
+	UPDATE "NDSO::SalesOrder.NDSO.operationHistory" SET
+		"technicalAttributes.status" = 'FINISHED',
+		"technicalAttributes.lastTimestamp" = CURRENT_UTCTIMESTAMP
+	WHERE "technicalKey.operationId" = :opId;
+END;

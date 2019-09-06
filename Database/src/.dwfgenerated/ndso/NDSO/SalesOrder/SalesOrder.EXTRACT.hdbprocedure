@@ -1,0 +1,230 @@
+PROCEDURE "NDSO::SalesOrder.EXTRACT" (
+	IN IN_PARAMETERS_JSON NCLOB,
+	OUT OUT_TARGET_TABLE "NDSO::SalesOrder.NDSO.extractProcOutput")
+LANGUAGE SQLSCRIPT SQL SECURITY INVOKER AS
+BEGIN
+	--NDSO Extract procedure - ifVersion: 1.0
+
+	DECLARE opId				INTEGER = -1;
+	DECLARE curSubscrMaxReqId	INTEGER = -1;
+	DECLARE newSubscrMaxReqId	INTEGER = -1;
+	DECLARE posIt				INTEGER = 0;
+	DECLARE ndsoName 			NVARCHAR(128) = 'NDSO::SalesOrder.NDSO';
+	DECLARE subscriberName		NVARCHAR(256);
+	DECLARE ndsoColumns			NCLOB;
+	DECLARE successMsgText		NVARCHAR(256);
+  	DECLARE successMsgNumber	INTEGER;
+
+	--Define exit handler
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION BEGIN
+		BEGIN AUTONOMOUS TRANSACTION
+			UPDATE "NDSO::SalesOrder.NDSO.operationHistory" SET
+				"technicalAttributes.status" = 'FAILED',
+				"technicalAttributes.lastTimestamp" = CURRENT_UTCTIMESTAMP
+			WHERE "technicalKey.operationId" = :opId;
+
+			posIt = :posIt + 1;
+			INSERT INTO "NDSO::SalesOrder.NDSO.logMessages" (
+				"technicalKey.operationId",
+				"technicalKey.posit",
+				"technicalAttributes.timestamp",
+				"technicalAttributes.msgType",
+				"technicalAttributes.msgNumber",
+				"technicalAttributes.msgText")
+			VALUES (:opId, :posIt, CURRENT_UTCTIMESTAMP, 'E', 99999, ::SQL_ERROR_CODE || ' - ' || ::SQL_ERROR_MESSAGE);
+
+			posIt = :posIt + 1;
+			INSERT INTO "NDSO::SalesOrder.NDSO.logMessages" (
+				"technicalKey.operationId",
+				"technicalKey.posit",
+				"technicalAttributes.timestamp",
+				"technicalAttributes.msgType",
+				"technicalAttributes.msgNumber",
+				"technicalAttributes.msgText")
+			VALUES (:opId, :posIt, CURRENT_UTCTIMESTAMP, 'E', 15004, 'Extracting via procedure failed');
+		END;
+	END;
+
+	--Parse input parameters
+	SELECT
+		ESCAPE_SINGLE_QUOTES(
+			JSON_VALUE(:IN_PARAMETERS_JSON, 'strict $.subscriberName' RETURNING NVARCHAR(256) ERROR ON ERROR)
+		) INTO subscriberName
+	FROM "DataWarehouse.DataStore::DUMMY";
+
+	BEGIN AUTONOMOUS TRANSACTION
+		--Get Operation Id
+		SELECT "NDSO::SalesOrder.sequence".nextval INTO opId FROM "DataWarehouse.DataStore::DUMMY";
+		INSERT INTO "NDSO::SalesOrder.NDSO.idGen" (
+			"technicalKey.id",
+			"technicalAttributes.type")
+		VALUES (:opId, 'OPERATION_REQUEST');
+
+		INSERT INTO "NDSO::SalesOrder.NDSO.operationHistory" (
+			"technicalKey.operationId",
+			"technicalAttributes.operation",
+			"technicalAttributes.userName",
+			"technicalAttributes.startTimestamp",
+			"technicalAttributes.lastTimestamp",
+			"technicalAttributes.status",
+			"technicalAttributes.operationDetails")
+		VALUES (:opId, 'EXTRACT', SESSION_CONTEXT('XS_APPLICATIONUSER'), CURRENT_UTCTIMESTAMP, CURRENT_UTCTIMESTAMP, 'RUNNING', '');
+
+		posIt = :posIt + 1;
+		INSERT INTO "NDSO::SalesOrder.NDSO.logMessages" (
+			"technicalKey.operationId",
+			"technicalKey.posit",
+			"technicalAttributes.timestamp",
+			"technicalAttributes.msgType",
+			"technicalAttributes.msgNumber",
+			"technicalAttributes.msgText")
+		VALUES (:opId, :posIt, CURRENT_UTCTIMESTAMP, 'I', 15001, 'Start extracting via procedure');
+	END;
+
+	--Join with dummy to avoid no data exception during initial extract (initialized to -1)
+	SELECT
+		IFNULL("S"."technicalAttributes.maxRequest", -1) INTO curSubscrMaxReqId
+	FROM
+		"DataWarehouse.DataStore::DUMMY" "D"
+	LEFT JOIN "NDSO::SalesOrder.NDSO.subscribers" "S"
+		ON "technicalKey.subscriberName" = :subscriberName;
+
+	--Get ndso columns
+	ndsoMetadata =
+		SELECT
+			"D"."ARTIFACT_NAME"			AS "artifName",
+			"D"."ELEMENT_NAME"			AS "elemName",
+			"D"."ARTIFACT_KIND"			AS "artifKind",
+			"D"."PARENT_ELEMENT_NAME"	AS "parentElemName",
+			"D"."SQL_DATA_TYPE_NAME"	AS "sqlDataTypeName",
+			"D"."TYPE_PARAM_1"			AS "typeParam1",
+			"D"."TYPE_PARAM_2"			AS "typeParam2",
+			"D"."IS_KEY"				AS "isKey",
+			"D"."VALUE"					AS "defaultValue",
+			"V"."VALUE"					AS "annotations",
+			"D"."ORDINAL_NUMBER"		AS "ordinalNumber"
+		FROM
+			"DataWarehouse.DataStore::CDS_ARTIFACT_DEFINITION"(::CURRENT_OBJECT_SCHEMA, :ndsoName) AS "D"
+			LEFT OUTER JOIN (
+				SELECT *
+				FROM "DataWarehouse.DataStore::CDS_ANNOTATION_VALUES"
+				WHERE "SCHEMA_NAME" = ::CURRENT_OBJECT_SCHEMA) "V"
+			ON "D"."SCHEMA_NAME" = "V"."SCHEMA_NAME"
+			AND "D"."ARTIFACT_NAME" = "V"."ARTIFACT_NAME"
+			AND "D"."ELEMENT_NAME" = "V"."ELEMENT_NAME"
+		ORDER BY
+			"D"."ORDINAL_NUMBER";
+
+	--Retrieve active_data table columns
+	SELECT
+		STRING_AGG(
+			'"' || ESCAPE_DOUBLE_QUOTES("elemName") || '"',
+			', '
+			ORDER BY "ordinalNumber" ASC) INTO ndsoColumns
+	FROM
+		:ndsoMetadata
+	WHERE
+		"artifKind" = 'ELEMENT'
+		AND "artifName" = 'NDSO::SalesOrder.NDSO.active_data'
+		AND ("artifName", "elemName") NOT IN (SELECT "artifName", "parentElemName" FROM :ndsoMetadata);
+
+	IF :curSubscrMaxReqId = -1 THEN
+		--Initial extract - Read data from active_data table
+		EXEC
+			'SELECT ' ||
+				--Convert to changelog format
+				'0 AS "technicalKey.activationId", ' ||
+				''''' AS "technicalAttributes.recordMode", ' ||
+				'ROW_NUMBER() OVER () AS "technicalKey.recordNo", ' ||
+				:ndsoColumns ||
+			'FROM ' ||
+				'"NDSO::SalesOrder.NDSO.active_data"'
+		INTO
+			OUT_TARGET_TABLE;
+
+		--New max requestId is 0 if changelog is empty otherwise get max activationId from changelog
+		--(extraction was done from active_data, i.e., the very first extraction)
+		SELECT
+			IFNULL(MAX("technicalKey.activationId"), 0) INTO newSubscrMaxReqId
+		FROM
+			"NDSO::SalesOrder.NDSO.change_log";
+
+		successMsgText = 'Initial extraction via procedure for subscriber ' || :subscriberName;
+		successMsgNumber = 15002;
+	ELSE
+		--Read data from changelog (filter by the subscriber's maxRequestId)
+		EXEC
+			'SELECT ' ||
+				'"technicalKey.activationId", ' ||
+				'"technicalAttributes.recordMode", ' ||
+				'"technicalKey.recordNo", ' ||
+				:ndsoColumns ||
+			'FROM ' ||
+				'"NDSO::SalesOrder.NDSO.change_log" ' ||
+			'WHERE ' ||
+				'"technicalKey.activationId" > :curSubscrMaxReqId'
+		INTO
+			OUT_TARGET_TABLE
+		USING
+			:curSubscrMaxReqId;
+
+		--Write affected requests
+		INSERT INTO "NDSO::SalesOrder.NDSO.affectedRequests" (
+			"technicalKey.operationId",
+			"technicalKey.requestId")
+		SELECT
+			:opId AS "technicalKey.operationId",
+			"technicalKey.activationId"
+		FROM
+			(SELECT DISTINCT "technicalKey.activationId" FROM :OUT_TARGET_TABLE);
+
+		--Use max activationId from change log; fallback to current maxRequestId in subscribers table.
+		--Usually this means nothing was extracted. If change log was empty on first extraction,
+		--this also fits as it is initialized with 0, i.e., next extraction will fetch whole change log
+		SELECT
+			IFNULL(
+				(SELECT MAX("technicalKey.activationId") FROM :OUT_TARGET_TABLE),
+				:curSubscrMaxReqId)
+			INTO newSubscrMaxReqId
+		FROM
+			"DataWarehouse.DataStore::DUMMY";
+
+		successMsgText = 'Delta extraction (after activation request ' || :curSubscrMaxReqId || ') via procedure for subscriber ' || :subscriberName;
+    	successMsgNumber = 15003;
+	END IF;
+
+	UPSERT "NDSO::SalesOrder.NDSO.subscribers" (
+		"technicalKey.subscriberName",
+		"technicalAttributes.description",
+		"technicalAttributes.userName",
+		"technicalAttributes.creationTimestamp",
+		"technicalAttributes.maxRequest",
+		"technicalAttributes.pushNotification")
+	SELECT
+		IFNULL("S"."technicalKey.subscriberName", :subscriberName) AS "technicalKey.subscriberName",
+		IFNULL("S"."technicalAttributes.description", 'Extraction by flowgraph: ' || :subscriberName) AS "technicalAttributes.description",
+		IFNULL("S"."technicalAttributes.userName", SESSION_CONTEXT('XS_APPLICATIONUSER')) AS "technicalAttributes.userName",
+		IFNULL("S"."technicalAttributes.creationTimestamp", CURRENT_UTCTIMESTAMP) AS "technicalAttributes.creationTimestamp",
+		:newSubscrMaxReqId AS "technicalAttributes.maxRequest",
+		IFNULL("S"."technicalAttributes.pushNotification", '') AS "technicalAttributes.pushNotification"
+	FROM
+		"DataWarehouse.DataStore::DUMMY" "D"
+	LEFT JOIN "NDSO::SalesOrder.NDSO.subscribers" "S"
+		ON "S"."technicalKey.subscriberName" = :subscriberName;
+
+	posIt = :posIt + 1;
+	INSERT INTO "NDSO::SalesOrder.NDSO.logMessages" (
+		"technicalKey.operationId",
+		"technicalKey.posit",
+		"technicalAttributes.timestamp",
+		"technicalAttributes.msgType",
+		"technicalAttributes.msgNumber",
+		"technicalAttributes.msgText")
+	VALUES (:opId, :posIt, CURRENT_UTCTIMESTAMP, 'S', :successMsgNumber, :successMsgText);
+
+	--Finally update operation status
+	UPDATE "NDSO::SalesOrder.NDSO.operationHistory" SET
+		"technicalAttributes.status" = 'FINISHED',
+		"technicalAttributes.lastTimestamp" = CURRENT_UTCTIMESTAMP
+	WHERE "technicalKey.operationId" = :opId;
+END;

@@ -1,0 +1,53 @@
+{
+  "description": "Sample by DWF template",
+  "responsible": {
+    "name": "SAP"
+  },
+  "resumeBehavior": "NO_RESUME",
+  "taskList": {
+    "1": {
+      "inline": {
+        "type": "START",
+        "taskGroup": "com.sap.dwf.toe.executionControl"
+      }
+    },
+    "2": {
+      "inline": {
+        "type": "executeProcedure",
+        "taskGroup": "hanaNative",
+        "description": "Load sample data into NDSO inbound queue",
+        "parameterValues": [
+          {
+            "id": "procName",
+            "value": "DataWareHouse.Database::LoadSalesOrders"
+          }
+        ]
+      },
+      "preconditions": [
+        {
+          "from": "1",
+          "status": "NEUTRAL"
+        }
+      ]
+    },
+    "3": {
+      "inline": {
+        "type": "activate",
+        "taskGroup": "ndso",
+        "description": "Activate data in NDSO SalesOrder",
+        "parameterValues": [
+          {
+            "id": "dataStoreName",
+            "value": "NDSO::SalesOrder.NDSO"
+          }
+        ]
+      },
+      "preconditions": [
+        {
+          "from": "2",
+          "status": "OK"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,3 @@
+SEQUENCE "NDSO::SalesOrder.sequence"
+RESET BY
+SELECT IFNULL(MAX("technicalKey.id"), 0) + 1 FROM "NDSO::SalesOrder.NDSO.idGen"

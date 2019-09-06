@@ -1,0 +1,121 @@
+{
+  "version": "1.0.0",
+  "hdiTarget": "hdicds",
+  "snapshots": false,
+  "elements": [
+    {
+      "name": "SalesOrderID",
+      "type": "primitiveType",
+      "dataType": "Integer",
+      "objectType": "",
+      "length": -1,
+      "scale": null,
+      "key": true,
+      "default": "",
+      "aggregation": "NOP",
+      "queueAggregation": {
+        "inbound_queue": "MOVE"
+      },
+      "elements": []
+    },
+    {
+      "name": "OrderDate",
+      "type": "primitiveType",
+      "dataType": "UTCDateTime",
+      "objectType": "",
+      "length": -1,
+      "scale": null,
+      "key": false,
+      "default": "2017-09-01",
+      "aggregation": "NOP",
+      "queueAggregation": {
+        "inbound_queue": "MOVE"
+      },
+      "elements": []
+    },
+    {
+      "name": "CustomerName",
+      "type": "primitiveType",
+      "dataType": "String",
+      "objectType": "",
+      "length": 100,
+      "scale": null,
+      "key": false,
+      "default": "",
+      "aggregation": "NOP",
+      "queueAggregation": {
+        "inbound_queue": "MOVE"
+      },
+      "elements": []
+    },
+    {
+      "name": "ProductName",
+      "type": "primitiveType",
+      "dataType": "String",
+      "objectType": "",
+      "length": 100,
+      "scale": null,
+      "key": false,
+      "default": "",
+      "aggregation": "NOP",
+      "queueAggregation": {
+        "inbound_queue": "MOVE"
+      },
+      "elements": []
+    },
+    {
+      "name": "OrderQuantity",
+      "type": "primitiveType",
+      "dataType": "Integer",
+      "objectType": "",
+      "length": -1,
+      "scale": null,
+      "key": false,
+      "default": "",
+      "aggregation": "SUM",
+      "queueAggregation": {
+        "inbound_queue": "MOVE"
+      },
+      "elements": []
+    },
+    {
+      "name": "Sales",
+      "type": "primitiveType",
+      "dataType": "Decimal",
+      "objectType": "",
+      "length": 12,
+      "scale": 2,
+      "key": false,
+      "default": "",
+      "aggregation": "SUM",
+      "queueAggregation": {
+        "inbound_queue": "MOVE"
+      },
+      "elements": []
+    }
+  ],
+  "activeData": {
+    "partitionSpec": "default"
+  },
+  "changeLog": {
+    "partitionSpec": "default"
+  },
+  "queues": [
+    {
+      "name": "inbound_queue",
+      "partitionSpec": "default"
+    }
+  ],
+  "partitionSpec": {
+    "default": [
+      {
+        "type": "hash",
+        "elements": [
+          "SalesOrderID"
+        ],
+        "partitions": -1,
+        "expression": "GET_NUM_SERVERS()"
+      }
+    ]
+  }
+}
