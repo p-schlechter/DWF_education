@@ -1,0 +1,40 @@
+namespace DataWarehouse.DataStore;
+
+using DataWarehouse.DataStore :: Types as dwt;
+using DataWarehouse.DataStore :: Structures.procAnnotation;
+
+annotation Annotations {
+    // DataStore related annotations
+
+    // --- annotations in context scope ---
+    isDSO :                    Boolean;
+    entity {
+        activeData           : dwt.entityRef;
+        changeLog            : dwt.entityRef;
+        activationQueue      : array of dwt.entityRef;
+        activationQueueUnion : dwt.entityRef;
+        operationHistory     : dwt.entityRef;
+        aggregationHistory   : dwt.entityRef;
+        logMessages          : dwt.entityRef;
+        affectedRequests     : dwt.entityRef;
+        runningOperations    : dwt.entityRef;
+        idGenerator          : dwt.entityRef;
+        subscribers          : dwt.entityRef;
+    };
+
+    snapshotSupport   : Boolean;
+    computeChecksum   : Boolean;
+    sequence          : dwt.entityRef;
+
+    procedures {
+        LOAD     : procAnnotation;
+        EXTRACT  : procAnnotation;
+        ACTIVATE : procAnnotation;
+    };
+
+    // --- annotations in entity scope ---
+    entityCategory : dwt.entityCategoryEnum;
+
+    // --- annotations in element scope ---
+    aggregation : dwt.aggregationEnum;
+};

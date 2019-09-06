@@ -1,0 +1,17 @@
+{
+    "plugin_version" : "2.0.20.0",
+    "file_suffixes":  {
+        "hdbcds": {
+            "plugin_name": "com.sap.hana.di.cds"
+        },
+        "hdbsynonym" : {
+            "plugin_name" : "com.sap.hana.di.synonym"
+        },
+        "hdbprocedure" : {
+            "plugin_name" : "com.sap.hana.di.procedure"
+        },
+        "hdbsequence" : {
+            "plugin_name" : "com.sap.hana.di.sequence"
+        }
+    }
+}

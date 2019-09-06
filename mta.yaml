@@ -1,0 +1,90 @@
+_schema-version: '2.0'
+ID: DWF_education
+description: DWF_education
+version: 0.0.1
+
+modules:
+ - name:  DWF_education-DWF
+   type: dwf
+#   parameters:
+#      app-name: DWF_education-DWF
+   path: DWF
+   requires:
+#      - name: DWF_education-uaa
+      - name: DWF_education-dws
+   properties:
+     memory: 256M
+
+ - name: DWF_education-Backend
+   type: nodejs
+#   parameters:
+#      app-name: DWF_education-Backend
+   path: Backend
+   requires:
+#      - name: DWF_education-uaa
+      - name: DWF_education-container
+      - name: DWF_education-dws
+   properties:
+     memory: 512M
+     API_END_POINT: "${xs-api-url}"
+#     SAP_JWT_TRUST_ACL: "[{\"clientid\":\"*\",\"identityzone\":\"*\"}]"
+   provides:
+    - name:  DWF_education-Backend
+      properties:
+       service_url: ${default-url}
+
+ - name: DWF_education-Database
+   type: hdb
+#   parameters:
+#      app-name: DWF_education-Database
+   path: Database
+   requires:
+    - name: DWF_education-container
+      properties:
+        TARGET_CONTAINER: '~{hdi-container-name}'
+   properties:
+     memory: 256M
+     HDI_DEPLOY_OPTIONS: { "auto_undeploy": true }
+
+resources:
+# - name: DWF_education-uaa
+#   type: com.sap.xs.uaa
+#   parameters:
+#     service-name: DWF_education-uaa
+#     service-plan: space
+#     config:
+#         xsappname: DWF_education
+#         scopes:
+#          - name: $XSAPPNAME.TOE
+#            description: access for TOE
+#            grant-as-authority-to-apps:
+#             - dwf-toe
+#             - dwf-runtime
+#            granted-apps:
+#             - dwf-toe
+#             - dwf-runtime
+#         authorities:
+#          - $ACCEPT_GRANTED_AUTHORITIES
+#         role-templates:
+#           - name: User
+#             description: Access API
+#             scope-references:
+#              - $XSAPPNAME.TOE
+
+ - name: DWF_education-dws
+   properties:
+      dwf-edw-client-name: ${service-name}
+#      dwf-edw-client-name: DWF_education-dws
+#   parameters:
+#      service-name: DWF_education-dws
+   type: com.sap.xs.dwf-edw-client
+ - name: DWF_education-container
+   properties:
+      hdi-container-name: ${service-name}
+#      hdi-container-name: DWF_education-container
+#   parameters:
+#      service-name: DWF_education-container
+   type: com.sap.xs.hdi-container
+   parameters:
+     service-keys:
+     - name: dwf-monitor

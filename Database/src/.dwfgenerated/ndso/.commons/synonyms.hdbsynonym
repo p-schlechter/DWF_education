@@ -1,0 +1,44 @@
+{
+	"DataWarehouse.DataStore::DUMMY" : {
+		"target": {
+			"schema": "SYS",
+			"object": "DUMMY"
+		}
+	},
+	"DataWarehouse.DataStore::M_CS_TABLES" : {
+		"target": {
+			"schema": "SYS",
+			"object": "M_CS_TABLES"
+		}
+	},
+	"DataWarehouse.DataStore::M_RS_TABLES" : {
+		"target": {
+			"schema": "SYS",
+			"object": "M_RS_TABLES"
+		}
+	},
+	"DataWarehouse.DataStore::CDS_ARTIFACT_DEFINITION" : {
+		"target": {
+			"schema": "SYS",
+			"object": "CDS_ARTIFACT_DEFINITION"
+		}
+	},
+	"DataWarehouse.DataStore::CDS_ANNOTATION_VALUES" : {
+		"target": {
+			"schema": "SYS",
+			"object": "CDS_ANNOTATION_VALUES"
+		}
+	},
+	"DataWarehouse.DataStore::DSO_ACTIVATE_CHANGES" : {
+		"target": {
+			"schema": "SYS",
+			"object": "DSO_ACTIVATE_CHANGES"
+		}
+	},
+	"DataWarehouse.DataStore::DSO_ROLLBACK_CHANGES" : {
+		"target": {
+			"schema": "SYS",
+			"object": "DSO_ROLLBACK_CHANGES"
+		}
+	}
+}
