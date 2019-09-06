@@ -1,5 +1,5 @@
 Hoang
-- adjust theory slides about DWS and DWM
+- adjust theory slides about DWS (Task Chain and Collector) and DWM
 - create CDS tables for constoso data
 - import contoso data into CDS tables
 - create NDSO for contoso data
