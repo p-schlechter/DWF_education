@@ -1,0 +1,36 @@
+{
+  "taskList": {
+    "1": {
+      "inline": {
+        "type": "START",
+        "taskGroup": "com.sap.dwf.toe.executionControl"
+      }
+    },
+    "2": {
+      "inline": {
+        "type": "loadSQL",
+        "taskGroup": "ndso",
+        "parameterValues": [
+          {
+            "id": "dataStoreName",
+            "value": "NDSO::SalesOrder.NDSO"
+          },
+          {
+            "id": "inboundTable",
+            "value": "inbound_queue"
+          },
+          {
+            "id": "sql",
+            "value": "SELECT * FROM inbound_queue"
+          }
+        ]
+      },
+      "preconditions": [
+        {
+          "from": "1",
+          "status": "NEUTRAL"
+        }
+      ]
+    }
+  }
+}

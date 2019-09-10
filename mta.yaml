@@ -42,11 +42,23 @@ modules:
     - name: DWF_education-container
       properties:
         TARGET_CONTAINER: '~{hdi-container-name}'
-   properties:
-     memory: 256M
-     HDI_DEPLOY_OPTIONS: { "auto_undeploy": true }
+    - name: cross-container-service-1
+      group: SERVICE_REPLACEMENTS
+      properties:
+        key: ServiceName_1
+        service: ~{contoso-service-name}
 
 resources:
+ - name: hdi_hdb
+   properties:
+      hdi-container-name: ${service-name}
+   type: com.sap.xs.hdi-container
+ - name: cross-container-service-1
+   parameters:
+      service-name: aws-hana-sys-bi-grantor
+   properties:
+      contoso-service-name: ${service-name}
+   type: org.cloudfoundry.existing-service
 # - name: DWF_education-uaa
 #   type: com.sap.xs.uaa
 #   parameters:

@@ -1,0 +1,14 @@
+{  
+  "ServiceName_1": {
+    "object_owner": {
+      "global_object_privileges" : [
+        {
+          "name" : "AWS_HANA",
+          "type" : "REMOTE SOURCE",
+          "privileges" : [ "CREATE VIRTUAL TABLE" ],
+          "privileges_with_grant_option" : [ "CREATE VIRTUAL TABLE" ]
+        }
+      ]
+    }
+  }
+}

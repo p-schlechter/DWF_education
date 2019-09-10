@@ -1,0 +1,1 @@
+VIRTUAL TABLE "DataWareHouse.Database.sda::virtChannel" AT "AWS_HANA"."<NULL>"."M_CONTOSO"."Channel"

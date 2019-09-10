@@ -1,0 +1,1 @@
+VIRTUAL TABLE "DataWareHouse.Database.sda::virtPromotion" AT "AWS_HANA"."<NULL>"."M_CONTOSO"."Promotion" 

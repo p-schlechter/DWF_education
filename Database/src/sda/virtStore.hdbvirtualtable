@@ -1,0 +1,1 @@
+VIRTUAL TABLE "DataWareHouse.Database.sda::virtStore" AT "AWS_HANA"."<NULL>"."M_CONTOSO"."Store_ext" 
