@@ -1,0 +1,316 @@
+{
+	"version": "1.0.0",
+	"hdiTarget": "hdicds",
+	"snapshots": false,
+	"elements": [
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "PROMOTIONKEY",
+			"type": "primitiveType",
+			"dataType": "Integer",
+			"objectType": "",
+			"length": null,
+			"scale": null,
+			"key": false,
+			"default": 0,
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "ETLLOADID",
+			"type": "primitiveType",
+			"dataType": "Integer",
+			"objectType": "",
+			"length": null,
+			"scale": null,
+			"key": false,
+			"default": 0,
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "CURRENCYKEY",
+			"type": "primitiveType",
+			"dataType": "Integer",
+			"objectType": "",
+			"length": null,
+			"scale": null,
+			"key": false,
+			"default": 0,
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "LOADDATE",
+			"type": "primitiveType",
+			"dataType": "UTCTimestamp",
+			"objectType": "",
+			"length": null,
+			"scale": null,
+			"key": false,
+			"default": "1900-01-01 00:00:00",
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "UNITCOST",
+			"type": "primitiveType",
+			"dataType": "DecimalFloat",
+			"objectType": "",
+			"length": null,
+			"scale": null,
+			"key": false,
+			"default": 0,
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "UPDATEDATE",
+			"type": "primitiveType",
+			"dataType": "UTCTimestamp",
+			"objectType": "",
+			"length": null,
+			"scale": null,
+			"key": false,
+			"default": "1900-01-01 00:00:00",
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "UNITPRICE",
+			"type": "primitiveType",
+			"dataType": "DecimalFloat",
+			"objectType": "",
+			"length": null,
+			"scale": null,
+			"key": false,
+			"default": 0,
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "SALESQUANTITY",
+			"type": "primitiveType",
+			"dataType": "Integer",
+			"objectType": "",
+			"length": null,
+			"scale": null,
+			"key": false,
+			"default": 0,
+			"aggregation": "SUM"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "RETURNQUANTITY",
+			"type": "primitiveType",
+			"dataType": "Integer",
+			"objectType": "",
+			"length": null,
+			"scale": null,
+			"key": false,
+			"default": 0,
+			"aggregation": "SUM"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "SALESKEY",
+			"type": "primitiveType",
+			"dataType": "Integer",
+			"objectType": "",
+			"length": null,
+			"scale": null,
+			"key": true,
+			"default": 0,
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "RETURNAMOUNT",
+			"type": "primitiveType",
+			"dataType": "DecimalFloat",
+			"objectType": "",
+			"length": null,
+			"scale": null,
+			"key": false,
+			"default": 0,
+			"aggregation": "SUM"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "DATEKEY",
+			"type": "primitiveType",
+			"dataType": "UTCTimestamp",
+			"objectType": "",
+			"length": null,
+			"scale": null,
+			"key": false,
+			"default": "1900-01-01 00:00:00",
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "DISCOUNTQUANTITY",
+			"type": "primitiveType",
+			"dataType": "Integer",
+			"objectType": "",
+			"length": null,
+			"scale": null,
+			"key": false,
+			"default": 0,
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "CHANNELKEY",
+			"type": "primitiveType",
+			"dataType": "Integer",
+			"objectType": "",
+			"length": null,
+			"scale": null,
+			"key": false,
+			"default": 0,
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "DISCOUNTAMOUNT",
+			"type": "primitiveType",
+			"dataType": "DecimalFloat",
+			"objectType": "",
+			"length": null,
+			"scale": null,
+			"key": false,
+			"default": 0,
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "STOREKEY",
+			"type": "primitiveType",
+			"dataType": "Integer",
+			"objectType": "",
+			"length": null,
+			"scale": null,
+			"key": false,
+			"default": 0,
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "TOTALCOST",
+			"type": "primitiveType",
+			"dataType": "DecimalFloat",
+			"objectType": "",
+			"length": null,
+			"scale": null,
+			"key": false,
+			"default": 0,
+			"aggregation": "SUM"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "PRODUCTKEY",
+			"type": "primitiveType",
+			"dataType": "Integer",
+			"objectType": "",
+			"length": null,
+			"scale": null,
+			"key": false,
+			"default": 0,
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "SALESAMOUNT",
+			"type": "primitiveType",
+			"dataType": "DecimalFloat",
+			"objectType": "",
+			"length": null,
+			"scale": null,
+			"key": false,
+			"default": 0,
+			"aggregation": "SUM"
+		}
+	],
+	"activeData": {
+		"partitionSpec": "default"
+	},
+	"changeLog": {
+		"partitionSpec": "default"
+	},
+	"queues": [
+		{
+			"name": "inbound_queue_1",
+			"partitionSpec": "default"
+		}
+	],
+	"partitionSpec": {
+		"default": [
+			{
+				"type": "hash",
+				"elements": [
+					"SALESKEY"
+				],
+				"partitions": -1,
+				"expression": "GET_NUM_SERVERS()"
+			}
+		]
+	}
+}

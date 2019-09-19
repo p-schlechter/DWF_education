@@ -1,0 +1,485 @@
+namespace NDSO;
+using DataWarehouse.DataStore :: Structures.inboundQueueKey;
+using DataWarehouse.DataStore :: Structures.inboundQueueKeyProc;
+using DataWarehouse.DataStore :: Structures.inboundQueueAttributes;
+using DataWarehouse.DataStore :: Structures.changeLogKey;
+using DataWarehouse.DataStore :: Structures.changeLogAttributes;
+using DataWarehouse.DataStore :: Structures.operationHistoryKey;
+using DataWarehouse.DataStore :: Structures.operationHistoryAttributes;
+using DataWarehouse.DataStore :: Structures.aggregationHistoryKey;
+using DataWarehouse.DataStore :: Structures.aggregationHistoryAttributes;
+using DataWarehouse.DataStore :: Structures.affectedRequestsKey;
+using DataWarehouse.DataStore :: Structures.logMessagesKey;
+using DataWarehouse.DataStore :: Structures.logMessagesAttributes;
+using DataWarehouse.DataStore :: Structures.subscribersKey;
+using DataWarehouse.DataStore :: Structures.subscribersAttributes;
+using DataWarehouse.DataStore :: Structures.runningOperationsKey;
+using DataWarehouse.DataStore :: Structures.idGeneratorKey;
+using DataWarehouse.DataStore :: Structures.idGeneratorAttributes;
+using DataWarehouse.DataStore :: Annotations as DataStore;
+
+context Contoso_Product {
+    
+    @DataStore.isDSO
+    @DataStore.entity.activeData : 'active_data'
+    @DataStore.entity.changeLog : 'change_log'
+    @DataStore.entity.activationQueue : [ 'inbound_queue_1' ]
+    @DataStore.entity.operationHistory : 'operationHistory'
+    @DataStore.entity.aggregationHistory : 'aggregationHistory'
+    @DataStore.entity.logMessages : 'logMessages'
+    @DataStore.entity.affectedRequests : 'affectedRequests'
+    @DataStore.entity.subscribers : 'subscribers'
+    @DataStore.entity.runningOperations : 'runningOperations'
+    @DataStore.entity.idGenerator : 'idGen'
+    @DataStore.sequence : 'NDSO::Contoso_Product.sequence'
+    @DataStore.procedures : { LOAD: { name: 'NDSO::Contoso_Product.LOAD', ifVersion: '1.0' }, EXTRACT: { name: 'NDSO::Contoso_Product.EXTRACT', ifVersion: '1.0' } }
+    @DataStore.computeChecksum : false
+    @DataStore.snapshotSupport : false
+    context NDSO {
+        
+        @DataStore.entityCategory : #ACTIVE_DATA
+        entity active_data {
+            
+            @DataStore.aggregation : #NOP
+            CLASSID : String(10) not null;
+            
+            @DataStore.aggregation : #NOP
+            UNITOFMEASUREID : String(10) not null;
+            
+            @DataStore.aggregation : #NOP
+            ETLLOADID : Integer not null;
+            
+            @DataStore.aggregation : #NOP
+            CLASSNAME : String(20) not null;
+            
+            @DataStore.aggregation : #NOP
+            UNITOFMEASURENAME : String(40) not null;
+            
+            @DataStore.aggregation : #NOP
+            LOADDATE : UTCTimestamp not null default '1900-01-01 00:00:00';
+            
+            @DataStore.aggregation : #NOP
+            STYLEID : String(10) not null;
+            
+            @DataStore.aggregation : #NOP
+            STOCKTYPEID : String(10) not null;
+            
+            @DataStore.aggregation : #NOP
+            UPDATEDATE : UTCTimestamp not null default '1900-01-01 00:00:00';
+            
+            @DataStore.aggregation : #NOP
+            STYLENAME : String(20) not null;
+            
+            @DataStore.aggregation : #NOP
+            STOCKTYPENAME : String(40) not null;
+            
+            @DataStore.aggregation : #NOP
+            key PRODUCTKEY : Integer not null;
+            
+            @DataStore.aggregation : #NOP
+            COLORID : String(10) not null;
+            
+            @DataStore.aggregation : #NOP
+            UNITCOST : DecimalFloat not null;
+            
+            @DataStore.aggregation : #NOP
+            PRODUCTLABEL : String(255) not null;
+            
+            @DataStore.aggregation : #NOP
+            COLORNAME : String(20) not null;
+            
+            @DataStore.aggregation : #NOP
+            UNITPRICE : DecimalFloat not null;
+            
+            @DataStore.aggregation : #NOP
+            PRODUCTNAME : String(500) not null;
+            
+            @DataStore.aggregation : #NOP
+            SIZE : String(50) not null;
+            
+            @DataStore.aggregation : #NOP
+            AVAILABLEFORSALEDATE : UTCTimestamp not null default '1900-01-01 00:00:00';
+            
+            @DataStore.aggregation : #NOP
+            PRODUCTDESCRIPTION : String(400) not null;
+            
+            @DataStore.aggregation : #NOP
+            SIZERANGE : String(50) not null;
+            
+            @DataStore.aggregation : #NOP
+            STOPSALEDATE : UTCTimestamp not null default '1900-01-01 00:00:00';
+            
+            @DataStore.aggregation : #NOP
+            PRODUCTSUBCATEGORYKEY : Integer not null;
+            
+            @DataStore.aggregation : #NOP
+            SIZEUNITMEASUREID : String(20) not null;
+            
+            @DataStore.aggregation : #NOP
+            STATUS : String(7) not null;
+            
+            @DataStore.aggregation : #NOP
+            MANUFACTURER : String(50) not null;
+            
+            @DataStore.aggregation : #NOP
+            WEIGHT : BinaryFloat not null;
+            
+            @DataStore.aggregation : #NOP
+            IMAGEURL : String(150) not null;
+            
+            @DataStore.aggregation : #NOP
+            BRANDNAME : String(50) not null;
+            
+            @DataStore.aggregation : #NOP
+            WEIGHTUNITMEASUREID : String(20) not null;
+            
+            @DataStore.aggregation : #NOP
+            PRODUCTURL : String(150) not null;
+        }
+        technical configuration {
+            group name Contoso_Product group type "sap.dwf.dso" group subtype ACTIVE;
+            partition by hash (PRODUCTKEY) partitions GET_NUM_SERVERS();
+        };
+        
+        
+        @DataStore.entityCategory : #ACTIVATION_QUEUE
+        entity inbound_queue_1 {
+            key technicalKey : inboundQueueKey;
+            technicalAttributes : inboundQueueAttributes not null;
+            
+            @DataStore.aggregation : #MOV
+            CLASSID : String(10) not null;
+            
+            @DataStore.aggregation : #MOV
+            UNITOFMEASUREID : String(10) not null;
+            
+            @DataStore.aggregation : #MOV
+            ETLLOADID : Integer not null;
+            
+            @DataStore.aggregation : #MOV
+            CLASSNAME : String(20) not null;
+            
+            @DataStore.aggregation : #MOV
+            UNITOFMEASURENAME : String(40) not null;
+            
+            @DataStore.aggregation : #MOV
+            LOADDATE : UTCTimestamp not null default '1900-01-01 00:00:00';
+            
+            @DataStore.aggregation : #MOV
+            STYLEID : String(10) not null;
+            
+            @DataStore.aggregation : #MOV
+            STOCKTYPEID : String(10) not null;
+            
+            @DataStore.aggregation : #MOV
+            UPDATEDATE : UTCTimestamp not null default '1900-01-01 00:00:00';
+            
+            @DataStore.aggregation : #MOV
+            STYLENAME : String(20) not null;
+            
+            @DataStore.aggregation : #MOV
+            STOCKTYPENAME : String(40) not null;
+            
+            @DataStore.aggregation : #MOV
+            key PRODUCTKEY : Integer not null;
+            
+            @DataStore.aggregation : #MOV
+            COLORID : String(10) not null;
+            
+            @DataStore.aggregation : #MOV
+            UNITCOST : DecimalFloat not null;
+            
+            @DataStore.aggregation : #MOV
+            PRODUCTLABEL : String(255) not null;
+            
+            @DataStore.aggregation : #MOV
+            COLORNAME : String(20) not null;
+            
+            @DataStore.aggregation : #MOV
+            UNITPRICE : DecimalFloat not null;
+            
+            @DataStore.aggregation : #MOV
+            PRODUCTNAME : String(500) not null;
+            
+            @DataStore.aggregation : #MOV
+            SIZE : String(50) not null;
+            
+            @DataStore.aggregation : #MOV
+            AVAILABLEFORSALEDATE : UTCTimestamp not null default '1900-01-01 00:00:00';
+            
+            @DataStore.aggregation : #MOV
+            PRODUCTDESCRIPTION : String(400) not null;
+            
+            @DataStore.aggregation : #MOV
+            SIZERANGE : String(50) not null;
+            
+            @DataStore.aggregation : #MOV
+            STOPSALEDATE : UTCTimestamp not null default '1900-01-01 00:00:00';
+            
+            @DataStore.aggregation : #MOV
+            PRODUCTSUBCATEGORYKEY : Integer not null;
+            
+            @DataStore.aggregation : #MOV
+            SIZEUNITMEASUREID : String(20) not null;
+            
+            @DataStore.aggregation : #MOV
+            STATUS : String(7) not null;
+            
+            @DataStore.aggregation : #MOV
+            MANUFACTURER : String(50) not null;
+            
+            @DataStore.aggregation : #MOV
+            WEIGHT : BinaryFloat not null;
+            
+            @DataStore.aggregation : #MOV
+            IMAGEURL : String(150) not null;
+            
+            @DataStore.aggregation : #MOV
+            BRANDNAME : String(50) not null;
+            
+            @DataStore.aggregation : #MOV
+            WEIGHTUNITMEASUREID : String(20) not null;
+            
+            @DataStore.aggregation : #MOV
+            PRODUCTURL : String(150) not null;
+        }
+        technical configuration {
+            group name Contoso_Product group type "sap.dwf.dso" group subtype QUEUE;
+            partition by hash (PRODUCTKEY) partitions GET_NUM_SERVERS();
+        };
+        
+        
+        @DataStore.entityCategory : #CHANGE_LOG
+        entity change_log {
+            key technicalKey : changeLogKey;
+            technicalAttributes : changeLogAttributes not null;
+            
+            
+            CLASSID : String(10) not null;
+            
+            
+            UNITOFMEASUREID : String(10) not null;
+            
+            
+            ETLLOADID : Integer not null;
+            
+            
+            CLASSNAME : String(20) not null;
+            
+            
+            UNITOFMEASURENAME : String(40) not null;
+            
+            
+            LOADDATE : UTCTimestamp not null default '1900-01-01 00:00:00';
+            
+            
+            STYLEID : String(10) not null;
+            
+            
+            STOCKTYPEID : String(10) not null;
+            
+            
+            UPDATEDATE : UTCTimestamp not null default '1900-01-01 00:00:00';
+            
+            
+            STYLENAME : String(20) not null;
+            
+            
+            STOCKTYPENAME : String(40) not null;
+            
+            
+            key PRODUCTKEY : Integer not null;
+            
+            
+            COLORID : String(10) not null;
+            
+            
+            UNITCOST : DecimalFloat not null;
+            
+            
+            PRODUCTLABEL : String(255) not null;
+            
+            
+            COLORNAME : String(20) not null;
+            
+            
+            UNITPRICE : DecimalFloat not null;
+            
+            
+            PRODUCTNAME : String(500) not null;
+            
+            
+            SIZE : String(50) not null;
+            
+            
+            AVAILABLEFORSALEDATE : UTCTimestamp not null default '1900-01-01 00:00:00';
+            
+            
+            PRODUCTDESCRIPTION : String(400) not null;
+            
+            
+            SIZERANGE : String(50) not null;
+            
+            
+            STOPSALEDATE : UTCTimestamp not null default '1900-01-01 00:00:00';
+            
+            
+            PRODUCTSUBCATEGORYKEY : Integer not null;
+            
+            
+            SIZEUNITMEASUREID : String(20) not null;
+            
+            
+            STATUS : String(7) not null;
+            
+            
+            MANUFACTURER : String(50) not null;
+            
+            
+            WEIGHT : BinaryFloat not null;
+            
+            
+            IMAGEURL : String(150) not null;
+            
+            
+            BRANDNAME : String(50) not null;
+            
+            
+            WEIGHTUNITMEASUREID : String(20) not null;
+            
+            
+            PRODUCTURL : String(150) not null;
+        }
+        technical configuration {
+            group name Contoso_Product group type "sap.dwf.dso" group subtype CHANGE_LOG;
+            partition by hash (PRODUCTKEY) partitions GET_NUM_SERVERS();
+        };
+        
+        
+        @DataStore.entityCategory : #LOG_MESSAGES
+        entity logMessages {
+            key technicalKey : logMessagesKey;
+            technicalAttributes : logMessagesAttributes;
+        };
+        
+        
+        @DataStore.entityCategory : #SUBSCRIBERS
+        entity subscribers {
+            key technicalKey : subscribersKey;
+            technicalAttributes : subscribersAttributes;
+        };
+        
+        
+        @DataStore.entityCategory : #OPERATION_HISTORY
+        entity operationHistory {
+            key technicalKey : operationHistoryKey;
+            technicalAttributes : operationHistoryAttributes;
+        };
+        
+        
+        @DataStore.entityCategory : #AFFECTED_REQUESTS
+        entity affectedRequests {
+            key technicalKey : affectedRequestsKey;
+        };
+        
+        
+        @DataStore.entityCategory : #AGGREGATION_HISTORY
+        entity aggregationHistory {
+            key technicalKey : aggregationHistoryKey;
+            technicalAttributes : aggregationHistoryAttributes;
+        };
+        
+        
+        @DataStore.entityCategory : #RUNNING_OPERATIONS
+        entity runningOperations {
+            key technicalKey : runningOperationsKey;
+        };
+        
+        
+        @DataStore.entityCategory : #ID_GENERATOR
+        entity idGen {
+            key technicalKey : idGeneratorKey;
+            technicalAttributes : idGeneratorAttributes;
+        };
+        
+    
+        table type extractProcOutput {
+            technicalKey : changeLogKey;
+            technicalAttributes : changeLogAttributes;
+            CLASSID : String(10);
+            UNITOFMEASUREID : String(10);
+            ETLLOADID : Integer;
+            CLASSNAME : String(20);
+            UNITOFMEASURENAME : String(40);
+            LOADDATE : UTCTimestamp;
+            STYLEID : String(10);
+            STOCKTYPEID : String(10);
+            UPDATEDATE : UTCTimestamp;
+            STYLENAME : String(20);
+            STOCKTYPENAME : String(40);
+            PRODUCTKEY : Integer;
+            COLORID : String(10);
+            UNITCOST : DecimalFloat;
+            PRODUCTLABEL : String(255);
+            COLORNAME : String(20);
+            UNITPRICE : DecimalFloat;
+            PRODUCTNAME : String(500);
+            SIZE : String(50);
+            AVAILABLEFORSALEDATE : UTCTimestamp;
+            PRODUCTDESCRIPTION : String(400);
+            SIZERANGE : String(50);
+            STOPSALEDATE : UTCTimestamp;
+            PRODUCTSUBCATEGORYKEY : Integer;
+            SIZEUNITMEASUREID : String(20);
+            STATUS : String(7);
+            MANUFACTURER : String(50);
+            WEIGHT : BinaryFloat;
+            IMAGEURL : String(150);
+            BRANDNAME : String(50);
+            WEIGHTUNITMEASUREID : String(20);
+            PRODUCTURL : String(150);
+        };
+    
+    
+        table type loadProcInput {
+            technicalKey : inboundQueueKeyProc;
+            technicalAttributes : inboundQueueAttributes;
+            CLASSID : String(10);
+            UNITOFMEASUREID : String(10);
+            ETLLOADID : Integer;
+            CLASSNAME : String(20);
+            UNITOFMEASURENAME : String(40);
+            LOADDATE : UTCTimestamp;
+            STYLEID : String(10);
+            STOCKTYPEID : String(10);
+            UPDATEDATE : UTCTimestamp;
+            STYLENAME : String(20);
+            STOCKTYPENAME : String(40);
+            PRODUCTKEY : Integer;
+            COLORID : String(10);
+            UNITCOST : DecimalFloat;
+            PRODUCTLABEL : String(255);
+            COLORNAME : String(20);
+            UNITPRICE : DecimalFloat;
+            PRODUCTNAME : String(500);
+            SIZE : String(50);
+            AVAILABLEFORSALEDATE : UTCTimestamp;
+            PRODUCTDESCRIPTION : String(400);
+            SIZERANGE : String(50);
+            STOPSALEDATE : UTCTimestamp;
+            PRODUCTSUBCATEGORYKEY : Integer;
+            SIZEUNITMEASUREID : String(20);
+            STATUS : String(7);
+            MANUFACTURER : String(50);
+            WEIGHT : BinaryFloat;
+            IMAGEURL : String(150);
+            BRANDNAME : String(50);
+            WEIGHTUNITMEASUREID : String(20);
+            PRODUCTURL : String(150);
+        };
+    
+    
+    
+    };
+
+};

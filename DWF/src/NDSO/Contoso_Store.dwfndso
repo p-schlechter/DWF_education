@@ -1,0 +1,286 @@
+{
+	"version": "1.0.0",
+	"hdiTarget": "hdicds",
+	"snapshots": false,
+	"elements": [
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "ZIPCODE",
+			"type": "primitiveType",
+			"dataType": "String",
+			"objectType": "",
+			"length": 20,
+			"scale": null,
+			"key": false,
+			"default": "",
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "STOREMANAGER",
+			"type": "primitiveType",
+			"dataType": "Integer",
+			"objectType": "",
+			"length": null,
+			"scale": null,
+			"key": false,
+			"default": 0,
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "CITY",
+			"type": "primitiveType",
+			"dataType": "String",
+			"objectType": "",
+			"length": 100,
+			"scale": null,
+			"key": false,
+			"default": "",
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "STORETYPE",
+			"type": "primitiveType",
+			"dataType": "String",
+			"objectType": "",
+			"length": 15,
+			"scale": null,
+			"key": false,
+			"default": "",
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "STREET",
+			"type": "primitiveType",
+			"dataType": "String",
+			"objectType": "",
+			"length": 100,
+			"scale": null,
+			"key": false,
+			"default": "",
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "STORENAME",
+			"type": "primitiveType",
+			"dataType": "String",
+			"objectType": "",
+			"length": 100,
+			"scale": null,
+			"key": false,
+			"default": "",
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "CLOSEREASON",
+			"type": "primitiveType",
+			"dataType": "String",
+			"objectType": "",
+			"length": 20,
+			"scale": null,
+			"key": false,
+			"default": "",
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "STOREDESCRIPTION",
+			"type": "primitiveType",
+			"dataType": "String",
+			"objectType": "",
+			"length": 300,
+			"scale": null,
+			"key": false,
+			"default": "",
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "EMPLOYEECOUNT",
+			"type": "primitiveType",
+			"dataType": "Integer",
+			"objectType": "",
+			"length": null,
+			"scale": null,
+			"key": false,
+			"default": 0,
+			"aggregation": "SUM"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "STATUS",
+			"type": "primitiveType",
+			"dataType": "String",
+			"objectType": "",
+			"length": 20,
+			"scale": null,
+			"key": false,
+			"default": "",
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "SELLINGAREASIZE",
+			"type": "primitiveType",
+			"dataType": "BinaryFloat",
+			"objectType": "",
+			"length": null,
+			"scale": null,
+			"key": false,
+			"default": 0,
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "OPENDATE",
+			"type": "primitiveType",
+			"dataType": "UTCTimestamp",
+			"objectType": "",
+			"length": null,
+			"scale": null,
+			"key": false,
+			"default": "1900-01-01 00:00:00",
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "CLOSEDATE",
+			"type": "primitiveType",
+			"dataType": "UTCTimestamp",
+			"objectType": "",
+			"length": null,
+			"scale": null,
+			"key": false,
+			"default": "1900-01-01 00:00:00",
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "STOREPHONE",
+			"type": "primitiveType",
+			"dataType": "String",
+			"objectType": "",
+			"length": 15,
+			"scale": null,
+			"key": false,
+			"default": "",
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "STOREFAX",
+			"type": "primitiveType",
+			"dataType": "String",
+			"objectType": "",
+			"length": 14,
+			"scale": null,
+			"key": false,
+			"default": "",
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "COUNTRY",
+			"type": "primitiveType",
+			"dataType": "String",
+			"objectType": "",
+			"length": 100,
+			"scale": null,
+			"key": false,
+			"default": "",
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "STOREKEY",
+			"type": "primitiveType",
+			"dataType": "Integer",
+			"objectType": "",
+			"length": null,
+			"scale": null,
+			"key": true,
+			"default": 0,
+			"aggregation": "NOP"
+		}
+	],
+	"activeData": {
+		"partitionSpec": "default"
+	},
+	"changeLog": {
+		"partitionSpec": "default"
+	},
+	"queues": [
+		{
+			"name": "inbound_queue_1",
+			"partitionSpec": "default"
+		}
+	],
+	"partitionSpec": {
+		"default": [
+			{
+				"type": "hash",
+				"elements": [
+					"STOREKEY"
+				],
+				"partitions": -1,
+				"expression": "GET_NUM_SERVERS()"
+			}
+		]
+	}
+}

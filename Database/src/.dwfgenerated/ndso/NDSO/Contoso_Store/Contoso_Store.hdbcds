@@ -1,0 +1,320 @@
+namespace NDSO;
+using DataWarehouse.DataStore :: Structures.inboundQueueKey;
+using DataWarehouse.DataStore :: Structures.inboundQueueKeyProc;
+using DataWarehouse.DataStore :: Structures.inboundQueueAttributes;
+using DataWarehouse.DataStore :: Structures.changeLogKey;
+using DataWarehouse.DataStore :: Structures.changeLogAttributes;
+using DataWarehouse.DataStore :: Structures.operationHistoryKey;
+using DataWarehouse.DataStore :: Structures.operationHistoryAttributes;
+using DataWarehouse.DataStore :: Structures.aggregationHistoryKey;
+using DataWarehouse.DataStore :: Structures.aggregationHistoryAttributes;
+using DataWarehouse.DataStore :: Structures.affectedRequestsKey;
+using DataWarehouse.DataStore :: Structures.logMessagesKey;
+using DataWarehouse.DataStore :: Structures.logMessagesAttributes;
+using DataWarehouse.DataStore :: Structures.subscribersKey;
+using DataWarehouse.DataStore :: Structures.subscribersAttributes;
+using DataWarehouse.DataStore :: Structures.runningOperationsKey;
+using DataWarehouse.DataStore :: Structures.idGeneratorKey;
+using DataWarehouse.DataStore :: Structures.idGeneratorAttributes;
+using DataWarehouse.DataStore :: Annotations as DataStore;
+
+context Contoso_Store {
+    
+    @DataStore.isDSO
+    @DataStore.entity.activeData : 'active_data'
+    @DataStore.entity.changeLog : 'change_log'
+    @DataStore.entity.activationQueue : [ 'inbound_queue_1' ]
+    @DataStore.entity.operationHistory : 'operationHistory'
+    @DataStore.entity.aggregationHistory : 'aggregationHistory'
+    @DataStore.entity.logMessages : 'logMessages'
+    @DataStore.entity.affectedRequests : 'affectedRequests'
+    @DataStore.entity.subscribers : 'subscribers'
+    @DataStore.entity.runningOperations : 'runningOperations'
+    @DataStore.entity.idGenerator : 'idGen'
+    @DataStore.sequence : 'NDSO::Contoso_Store.sequence'
+    @DataStore.procedures : { LOAD: { name: 'NDSO::Contoso_Store.LOAD', ifVersion: '1.0' }, EXTRACT: { name: 'NDSO::Contoso_Store.EXTRACT', ifVersion: '1.0' } }
+    @DataStore.computeChecksum : false
+    @DataStore.snapshotSupport : false
+    context NDSO {
+        
+        @DataStore.entityCategory : #ACTIVE_DATA
+        entity active_data {
+            
+            @DataStore.aggregation : #NOP
+            ZIPCODE : String(20) not null;
+            
+            @DataStore.aggregation : #NOP
+            STOREMANAGER : Integer not null;
+            
+            @DataStore.aggregation : #NOP
+            CITY : String(100) not null;
+            
+            @DataStore.aggregation : #NOP
+            STORETYPE : String(15) not null;
+            
+            @DataStore.aggregation : #NOP
+            STREET : String(100) not null;
+            
+            @DataStore.aggregation : #NOP
+            STORENAME : String(100) not null;
+            
+            @DataStore.aggregation : #NOP
+            CLOSEREASON : String(20) not null;
+            
+            @DataStore.aggregation : #NOP
+            STOREDESCRIPTION : String(300) not null;
+            
+            @DataStore.aggregation : #SUM
+            EMPLOYEECOUNT : Integer not null;
+            
+            @DataStore.aggregation : #NOP
+            STATUS : String(20) not null;
+            
+            @DataStore.aggregation : #NOP
+            SELLINGAREASIZE : BinaryFloat not null;
+            
+            @DataStore.aggregation : #NOP
+            OPENDATE : UTCTimestamp not null default '1900-01-01 00:00:00';
+            
+            @DataStore.aggregation : #NOP
+            CLOSEDATE : UTCTimestamp not null default '1900-01-01 00:00:00';
+            
+            @DataStore.aggregation : #NOP
+            STOREPHONE : String(15) not null;
+            
+            @DataStore.aggregation : #NOP
+            STOREFAX : String(14) not null;
+            
+            @DataStore.aggregation : #NOP
+            COUNTRY : String(100) not null;
+            
+            @DataStore.aggregation : #NOP
+            key STOREKEY : Integer not null;
+        }
+        technical configuration {
+            group name Contoso_Store group type "sap.dwf.dso" group subtype ACTIVE;
+            partition by hash (STOREKEY) partitions GET_NUM_SERVERS();
+        };
+        
+        
+        @DataStore.entityCategory : #ACTIVATION_QUEUE
+        entity inbound_queue_1 {
+            key technicalKey : inboundQueueKey;
+            technicalAttributes : inboundQueueAttributes not null;
+            
+            @DataStore.aggregation : #MOV
+            ZIPCODE : String(20) not null;
+            
+            @DataStore.aggregation : #MOV
+            STOREMANAGER : Integer not null;
+            
+            @DataStore.aggregation : #MOV
+            CITY : String(100) not null;
+            
+            @DataStore.aggregation : #MOV
+            STORETYPE : String(15) not null;
+            
+            @DataStore.aggregation : #MOV
+            STREET : String(100) not null;
+            
+            @DataStore.aggregation : #MOV
+            STORENAME : String(100) not null;
+            
+            @DataStore.aggregation : #MOV
+            CLOSEREASON : String(20) not null;
+            
+            @DataStore.aggregation : #MOV
+            STOREDESCRIPTION : String(300) not null;
+            
+            @DataStore.aggregation : #MOV
+            EMPLOYEECOUNT : Integer not null;
+            
+            @DataStore.aggregation : #MOV
+            STATUS : String(20) not null;
+            
+            @DataStore.aggregation : #MOV
+            SELLINGAREASIZE : BinaryFloat not null;
+            
+            @DataStore.aggregation : #MOV
+            OPENDATE : UTCTimestamp not null default '1900-01-01 00:00:00';
+            
+            @DataStore.aggregation : #MOV
+            CLOSEDATE : UTCTimestamp not null default '1900-01-01 00:00:00';
+            
+            @DataStore.aggregation : #MOV
+            STOREPHONE : String(15) not null;
+            
+            @DataStore.aggregation : #MOV
+            STOREFAX : String(14) not null;
+            
+            @DataStore.aggregation : #MOV
+            COUNTRY : String(100) not null;
+            
+            @DataStore.aggregation : #MOV
+            key STOREKEY : Integer not null;
+        }
+        technical configuration {
+            group name Contoso_Store group type "sap.dwf.dso" group subtype QUEUE;
+            partition by hash (STOREKEY) partitions GET_NUM_SERVERS();
+        };
+        
+        
+        @DataStore.entityCategory : #CHANGE_LOG
+        entity change_log {
+            key technicalKey : changeLogKey;
+            technicalAttributes : changeLogAttributes not null;
+            
+            
+            ZIPCODE : String(20) not null;
+            
+            
+            STOREMANAGER : Integer not null;
+            
+            
+            CITY : String(100) not null;
+            
+            
+            STORETYPE : String(15) not null;
+            
+            
+            STREET : String(100) not null;
+            
+            
+            STORENAME : String(100) not null;
+            
+            
+            CLOSEREASON : String(20) not null;
+            
+            
+            STOREDESCRIPTION : String(300) not null;
+            
+            
+            EMPLOYEECOUNT : Integer not null;
+            
+            
+            STATUS : String(20) not null;
+            
+            
+            SELLINGAREASIZE : BinaryFloat not null;
+            
+            
+            OPENDATE : UTCTimestamp not null default '1900-01-01 00:00:00';
+            
+            
+            CLOSEDATE : UTCTimestamp not null default '1900-01-01 00:00:00';
+            
+            
+            STOREPHONE : String(15) not null;
+            
+            
+            STOREFAX : String(14) not null;
+            
+            
+            COUNTRY : String(100) not null;
+            
+            
+            key STOREKEY : Integer not null;
+        }
+        technical configuration {
+            group name Contoso_Store group type "sap.dwf.dso" group subtype CHANGE_LOG;
+            partition by hash (STOREKEY) partitions GET_NUM_SERVERS();
+        };
+        
+        
+        @DataStore.entityCategory : #LOG_MESSAGES
+        entity logMessages {
+            key technicalKey : logMessagesKey;
+            technicalAttributes : logMessagesAttributes;
+        };
+        
+        
+        @DataStore.entityCategory : #SUBSCRIBERS
+        entity subscribers {
+            key technicalKey : subscribersKey;
+            technicalAttributes : subscribersAttributes;
+        };
+        
+        
+        @DataStore.entityCategory : #OPERATION_HISTORY
+        entity operationHistory {
+            key technicalKey : operationHistoryKey;
+            technicalAttributes : operationHistoryAttributes;
+        };
+        
+        
+        @DataStore.entityCategory : #AFFECTED_REQUESTS
+        entity affectedRequests {
+            key technicalKey : affectedRequestsKey;
+        };
+        
+        
+        @DataStore.entityCategory : #AGGREGATION_HISTORY
+        entity aggregationHistory {
+            key technicalKey : aggregationHistoryKey;
+            technicalAttributes : aggregationHistoryAttributes;
+        };
+        
+        
+        @DataStore.entityCategory : #RUNNING_OPERATIONS
+        entity runningOperations {
+            key technicalKey : runningOperationsKey;
+        };
+        
+        
+        @DataStore.entityCategory : #ID_GENERATOR
+        entity idGen {
+            key technicalKey : idGeneratorKey;
+            technicalAttributes : idGeneratorAttributes;
+        };
+        
+    
+        table type extractProcOutput {
+            technicalKey : changeLogKey;
+            technicalAttributes : changeLogAttributes;
+            ZIPCODE : String(20);
+            STOREMANAGER : Integer;
+            CITY : String(100);
+            STORETYPE : String(15);
+            STREET : String(100);
+            STORENAME : String(100);
+            CLOSEREASON : String(20);
+            STOREDESCRIPTION : String(300);
+            EMPLOYEECOUNT : Integer;
+            STATUS : String(20);
+            SELLINGAREASIZE : BinaryFloat;
+            OPENDATE : UTCTimestamp;
+            CLOSEDATE : UTCTimestamp;
+            STOREPHONE : String(15);
+            STOREFAX : String(14);
+            COUNTRY : String(100);
+            STOREKEY : Integer;
+        };
+    
+    
+        table type loadProcInput {
+            technicalKey : inboundQueueKeyProc;
+            technicalAttributes : inboundQueueAttributes;
+            ZIPCODE : String(20);
+            STOREMANAGER : Integer;
+            CITY : String(100);
+            STORETYPE : String(15);
+            STREET : String(100);
+            STORENAME : String(100);
+            CLOSEREASON : String(20);
+            STOREDESCRIPTION : String(300);
+            EMPLOYEECOUNT : Integer;
+            STATUS : String(20);
+            SELLINGAREASIZE : BinaryFloat;
+            OPENDATE : UTCTimestamp;
+            CLOSEDATE : UTCTimestamp;
+            STOREPHONE : String(15);
+            STOREFAX : String(14);
+            COUNTRY : String(100);
+            STOREKEY : Integer;
+        };
+    
+    
+    
+    };
+
+};

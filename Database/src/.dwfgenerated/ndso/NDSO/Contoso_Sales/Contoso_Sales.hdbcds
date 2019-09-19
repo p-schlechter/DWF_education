@@ -1,0 +1,342 @@
+namespace NDSO;
+using DataWarehouse.DataStore :: Structures.inboundQueueKey;
+using DataWarehouse.DataStore :: Structures.inboundQueueKeyProc;
+using DataWarehouse.DataStore :: Structures.inboundQueueAttributes;
+using DataWarehouse.DataStore :: Structures.changeLogKey;
+using DataWarehouse.DataStore :: Structures.changeLogAttributes;
+using DataWarehouse.DataStore :: Structures.operationHistoryKey;
+using DataWarehouse.DataStore :: Structures.operationHistoryAttributes;
+using DataWarehouse.DataStore :: Structures.aggregationHistoryKey;
+using DataWarehouse.DataStore :: Structures.aggregationHistoryAttributes;
+using DataWarehouse.DataStore :: Structures.affectedRequestsKey;
+using DataWarehouse.DataStore :: Structures.logMessagesKey;
+using DataWarehouse.DataStore :: Structures.logMessagesAttributes;
+using DataWarehouse.DataStore :: Structures.subscribersKey;
+using DataWarehouse.DataStore :: Structures.subscribersAttributes;
+using DataWarehouse.DataStore :: Structures.runningOperationsKey;
+using DataWarehouse.DataStore :: Structures.idGeneratorKey;
+using DataWarehouse.DataStore :: Structures.idGeneratorAttributes;
+using DataWarehouse.DataStore :: Annotations as DataStore;
+
+context Contoso_Sales {
+    
+    @DataStore.isDSO
+    @DataStore.entity.activeData : 'active_data'
+    @DataStore.entity.changeLog : 'change_log'
+    @DataStore.entity.activationQueue : [ 'inbound_queue_1' ]
+    @DataStore.entity.operationHistory : 'operationHistory'
+    @DataStore.entity.aggregationHistory : 'aggregationHistory'
+    @DataStore.entity.logMessages : 'logMessages'
+    @DataStore.entity.affectedRequests : 'affectedRequests'
+    @DataStore.entity.subscribers : 'subscribers'
+    @DataStore.entity.runningOperations : 'runningOperations'
+    @DataStore.entity.idGenerator : 'idGen'
+    @DataStore.sequence : 'NDSO::Contoso_Sales.sequence'
+    @DataStore.procedures : { LOAD: { name: 'NDSO::Contoso_Sales.LOAD', ifVersion: '1.0' }, EXTRACT: { name: 'NDSO::Contoso_Sales.EXTRACT', ifVersion: '1.0' } }
+    @DataStore.computeChecksum : false
+    @DataStore.snapshotSupport : false
+    context NDSO {
+        
+        @DataStore.entityCategory : #ACTIVE_DATA
+        entity active_data {
+            
+            @DataStore.aggregation : #NOP
+            PROMOTIONKEY : Integer not null;
+            
+            @DataStore.aggregation : #NOP
+            ETLLOADID : Integer not null;
+            
+            @DataStore.aggregation : #NOP
+            CURRENCYKEY : Integer not null;
+            
+            @DataStore.aggregation : #NOP
+            LOADDATE : UTCTimestamp not null default '1900-01-01 00:00:00';
+            
+            @DataStore.aggregation : #NOP
+            UNITCOST : DecimalFloat not null;
+            
+            @DataStore.aggregation : #NOP
+            UPDATEDATE : UTCTimestamp not null default '1900-01-01 00:00:00';
+            
+            @DataStore.aggregation : #NOP
+            UNITPRICE : DecimalFloat not null;
+            
+            @DataStore.aggregation : #SUM
+            SALESQUANTITY : Integer not null;
+            
+            @DataStore.aggregation : #SUM
+            RETURNQUANTITY : Integer not null;
+            
+            @DataStore.aggregation : #NOP
+            key SALESKEY : Integer not null;
+            
+            @DataStore.aggregation : #SUM
+            RETURNAMOUNT : DecimalFloat not null;
+            
+            @DataStore.aggregation : #NOP
+            DATEKEY : UTCTimestamp not null default '1900-01-01 00:00:00';
+            
+            @DataStore.aggregation : #NOP
+            DISCOUNTQUANTITY : Integer not null;
+            
+            @DataStore.aggregation : #NOP
+            CHANNELKEY : Integer not null;
+            
+            @DataStore.aggregation : #NOP
+            DISCOUNTAMOUNT : DecimalFloat not null;
+            
+            @DataStore.aggregation : #NOP
+            STOREKEY : Integer not null;
+            
+            @DataStore.aggregation : #SUM
+            TOTALCOST : DecimalFloat not null;
+            
+            @DataStore.aggregation : #NOP
+            PRODUCTKEY : Integer not null;
+            
+            @DataStore.aggregation : #SUM
+            SALESAMOUNT : DecimalFloat not null;
+        }
+        technical configuration {
+            group name Contoso_Sales group type "sap.dwf.dso" group subtype ACTIVE;
+            partition by hash (SALESKEY) partitions GET_NUM_SERVERS();
+        };
+        
+        
+        @DataStore.entityCategory : #ACTIVATION_QUEUE
+        entity inbound_queue_1 {
+            key technicalKey : inboundQueueKey;
+            technicalAttributes : inboundQueueAttributes not null;
+            
+            @DataStore.aggregation : #MOV
+            PROMOTIONKEY : Integer not null;
+            
+            @DataStore.aggregation : #MOV
+            ETLLOADID : Integer not null;
+            
+            @DataStore.aggregation : #MOV
+            CURRENCYKEY : Integer not null;
+            
+            @DataStore.aggregation : #MOV
+            LOADDATE : UTCTimestamp not null default '1900-01-01 00:00:00';
+            
+            @DataStore.aggregation : #MOV
+            UNITCOST : DecimalFloat not null;
+            
+            @DataStore.aggregation : #MOV
+            UPDATEDATE : UTCTimestamp not null default '1900-01-01 00:00:00';
+            
+            @DataStore.aggregation : #MOV
+            UNITPRICE : DecimalFloat not null;
+            
+            @DataStore.aggregation : #MOV
+            SALESQUANTITY : Integer not null;
+            
+            @DataStore.aggregation : #MOV
+            RETURNQUANTITY : Integer not null;
+            
+            @DataStore.aggregation : #MOV
+            key SALESKEY : Integer not null;
+            
+            @DataStore.aggregation : #MOV
+            RETURNAMOUNT : DecimalFloat not null;
+            
+            @DataStore.aggregation : #MOV
+            DATEKEY : UTCTimestamp not null default '1900-01-01 00:00:00';
+            
+            @DataStore.aggregation : #MOV
+            DISCOUNTQUANTITY : Integer not null;
+            
+            @DataStore.aggregation : #MOV
+            CHANNELKEY : Integer not null;
+            
+            @DataStore.aggregation : #MOV
+            DISCOUNTAMOUNT : DecimalFloat not null;
+            
+            @DataStore.aggregation : #MOV
+            STOREKEY : Integer not null;
+            
+            @DataStore.aggregation : #MOV
+            TOTALCOST : DecimalFloat not null;
+            
+            @DataStore.aggregation : #MOV
+            PRODUCTKEY : Integer not null;
+            
+            @DataStore.aggregation : #MOV
+            SALESAMOUNT : DecimalFloat not null;
+        }
+        technical configuration {
+            group name Contoso_Sales group type "sap.dwf.dso" group subtype QUEUE;
+            partition by hash (SALESKEY) partitions GET_NUM_SERVERS();
+        };
+        
+        
+        @DataStore.entityCategory : #CHANGE_LOG
+        entity change_log {
+            key technicalKey : changeLogKey;
+            technicalAttributes : changeLogAttributes not null;
+            
+            
+            PROMOTIONKEY : Integer not null;
+            
+            
+            ETLLOADID : Integer not null;
+            
+            
+            CURRENCYKEY : Integer not null;
+            
+            
+            LOADDATE : UTCTimestamp not null default '1900-01-01 00:00:00';
+            
+            
+            UNITCOST : DecimalFloat not null;
+            
+            
+            UPDATEDATE : UTCTimestamp not null default '1900-01-01 00:00:00';
+            
+            
+            UNITPRICE : DecimalFloat not null;
+            
+            
+            SALESQUANTITY : Integer not null;
+            
+            
+            RETURNQUANTITY : Integer not null;
+            
+            
+            key SALESKEY : Integer not null;
+            
+            
+            RETURNAMOUNT : DecimalFloat not null;
+            
+            
+            DATEKEY : UTCTimestamp not null default '1900-01-01 00:00:00';
+            
+            
+            DISCOUNTQUANTITY : Integer not null;
+            
+            
+            CHANNELKEY : Integer not null;
+            
+            
+            DISCOUNTAMOUNT : DecimalFloat not null;
+            
+            
+            STOREKEY : Integer not null;
+            
+            
+            TOTALCOST : DecimalFloat not null;
+            
+            
+            PRODUCTKEY : Integer not null;
+            
+            
+            SALESAMOUNT : DecimalFloat not null;
+        }
+        technical configuration {
+            group name Contoso_Sales group type "sap.dwf.dso" group subtype CHANGE_LOG;
+            partition by hash (SALESKEY) partitions GET_NUM_SERVERS();
+        };
+        
+        
+        @DataStore.entityCategory : #LOG_MESSAGES
+        entity logMessages {
+            key technicalKey : logMessagesKey;
+            technicalAttributes : logMessagesAttributes;
+        };
+        
+        
+        @DataStore.entityCategory : #SUBSCRIBERS
+        entity subscribers {
+            key technicalKey : subscribersKey;
+            technicalAttributes : subscribersAttributes;
+        };
+        
+        
+        @DataStore.entityCategory : #OPERATION_HISTORY
+        entity operationHistory {
+            key technicalKey : operationHistoryKey;
+            technicalAttributes : operationHistoryAttributes;
+        };
+        
+        
+        @DataStore.entityCategory : #AFFECTED_REQUESTS
+        entity affectedRequests {
+            key technicalKey : affectedRequestsKey;
+        };
+        
+        
+        @DataStore.entityCategory : #AGGREGATION_HISTORY
+        entity aggregationHistory {
+            key technicalKey : aggregationHistoryKey;
+            technicalAttributes : aggregationHistoryAttributes;
+        };
+        
+        
+        @DataStore.entityCategory : #RUNNING_OPERATIONS
+        entity runningOperations {
+            key technicalKey : runningOperationsKey;
+        };
+        
+        
+        @DataStore.entityCategory : #ID_GENERATOR
+        entity idGen {
+            key technicalKey : idGeneratorKey;
+            technicalAttributes : idGeneratorAttributes;
+        };
+        
+    
+        table type extractProcOutput {
+            technicalKey : changeLogKey;
+            technicalAttributes : changeLogAttributes;
+            PROMOTIONKEY : Integer;
+            ETLLOADID : Integer;
+            CURRENCYKEY : Integer;
+            LOADDATE : UTCTimestamp;
+            UNITCOST : DecimalFloat;
+            UPDATEDATE : UTCTimestamp;
+            UNITPRICE : DecimalFloat;
+            SALESQUANTITY : Integer;
+            RETURNQUANTITY : Integer;
+            SALESKEY : Integer;
+            RETURNAMOUNT : DecimalFloat;
+            DATEKEY : UTCTimestamp;
+            DISCOUNTQUANTITY : Integer;
+            CHANNELKEY : Integer;
+            DISCOUNTAMOUNT : DecimalFloat;
+            STOREKEY : Integer;
+            TOTALCOST : DecimalFloat;
+            PRODUCTKEY : Integer;
+            SALESAMOUNT : DecimalFloat;
+        };
+    
+    
+        table type loadProcInput {
+            technicalKey : inboundQueueKeyProc;
+            technicalAttributes : inboundQueueAttributes;
+            PROMOTIONKEY : Integer;
+            ETLLOADID : Integer;
+            CURRENCYKEY : Integer;
+            LOADDATE : UTCTimestamp;
+            UNITCOST : DecimalFloat;
+            UPDATEDATE : UTCTimestamp;
+            UNITPRICE : DecimalFloat;
+            SALESQUANTITY : Integer;
+            RETURNQUANTITY : Integer;
+            SALESKEY : Integer;
+            RETURNAMOUNT : DecimalFloat;
+            DATEKEY : UTCTimestamp;
+            DISCOUNTQUANTITY : Integer;
+            CHANNELKEY : Integer;
+            DISCOUNTAMOUNT : DecimalFloat;
+            STOREKEY : Integer;
+            TOTALCOST : DecimalFloat;
+            PRODUCTKEY : Integer;
+            SALESAMOUNT : DecimalFloat;
+        };
+    
+    
+    
+    };
+
+};

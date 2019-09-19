@@ -1,0 +1,511 @@
+{
+	"version": "1.0.0",
+	"hdiTarget": "hdicds",
+	"snapshots": false,
+	"elements": [
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "CLASSID",
+			"type": "primitiveType",
+			"dataType": "String",
+			"objectType": "",
+			"length": 10,
+			"scale": null,
+			"key": false,
+			"default": "",
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "UNITOFMEASUREID",
+			"type": "primitiveType",
+			"dataType": "String",
+			"objectType": "",
+			"length": 10,
+			"scale": null,
+			"key": false,
+			"default": "",
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "ETLLOADID",
+			"type": "primitiveType",
+			"dataType": "Integer",
+			"objectType": "",
+			"length": null,
+			"scale": null,
+			"key": false,
+			"default": 0,
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "CLASSNAME",
+			"type": "primitiveType",
+			"dataType": "String",
+			"objectType": "",
+			"length": 20,
+			"scale": null,
+			"key": false,
+			"default": "",
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "UNITOFMEASURENAME",
+			"type": "primitiveType",
+			"dataType": "String",
+			"objectType": "",
+			"length": 40,
+			"scale": null,
+			"key": false,
+			"default": "",
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "LOADDATE",
+			"type": "primitiveType",
+			"dataType": "UTCTimestamp",
+			"objectType": "",
+			"length": null,
+			"scale": null,
+			"key": false,
+			"default": "1900-01-01 00:00:00",
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "STYLEID",
+			"type": "primitiveType",
+			"dataType": "String",
+			"objectType": "",
+			"length": 10,
+			"scale": null,
+			"key": false,
+			"default": "",
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "STOCKTYPEID",
+			"type": "primitiveType",
+			"dataType": "String",
+			"objectType": "",
+			"length": 10,
+			"scale": null,
+			"key": false,
+			"default": "",
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "UPDATEDATE",
+			"type": "primitiveType",
+			"dataType": "UTCTimestamp",
+			"objectType": "",
+			"length": null,
+			"scale": null,
+			"key": false,
+			"default": "1900-01-01 00:00:00",
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "STYLENAME",
+			"type": "primitiveType",
+			"dataType": "String",
+			"objectType": "",
+			"length": 20,
+			"scale": null,
+			"key": false,
+			"default": "",
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "STOCKTYPENAME",
+			"type": "primitiveType",
+			"dataType": "String",
+			"objectType": "",
+			"length": 40,
+			"scale": null,
+			"key": false,
+			"default": "",
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "PRODUCTKEY",
+			"type": "primitiveType",
+			"dataType": "Integer",
+			"objectType": "",
+			"length": null,
+			"scale": null,
+			"key": true,
+			"default": 0,
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "COLORID",
+			"type": "primitiveType",
+			"dataType": "String",
+			"objectType": "",
+			"length": 10,
+			"scale": null,
+			"key": false,
+			"default": "",
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "UNITCOST",
+			"type": "primitiveType",
+			"dataType": "DecimalFloat",
+			"objectType": "",
+			"length": null,
+			"scale": null,
+			"key": false,
+			"default": 0,
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "PRODUCTLABEL",
+			"type": "primitiveType",
+			"dataType": "String",
+			"objectType": "",
+			"length": 255,
+			"scale": null,
+			"key": false,
+			"default": "",
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "COLORNAME",
+			"type": "primitiveType",
+			"dataType": "String",
+			"objectType": "",
+			"length": 20,
+			"scale": null,
+			"key": false,
+			"default": "",
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "UNITPRICE",
+			"type": "primitiveType",
+			"dataType": "DecimalFloat",
+			"objectType": "",
+			"length": null,
+			"scale": null,
+			"key": false,
+			"default": 0,
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "PRODUCTNAME",
+			"type": "primitiveType",
+			"dataType": "String",
+			"objectType": "",
+			"length": 500,
+			"scale": null,
+			"key": false,
+			"default": "",
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "SIZE",
+			"type": "primitiveType",
+			"dataType": "String",
+			"objectType": "",
+			"length": 50,
+			"scale": null,
+			"key": false,
+			"default": "",
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "AVAILABLEFORSALEDATE",
+			"type": "primitiveType",
+			"dataType": "UTCTimestamp",
+			"objectType": "",
+			"length": null,
+			"scale": null,
+			"key": false,
+			"default": "1900-01-01 00:00:00",
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "PRODUCTDESCRIPTION",
+			"type": "primitiveType",
+			"dataType": "String",
+			"objectType": "",
+			"length": 400,
+			"scale": null,
+			"key": false,
+			"default": "",
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "SIZERANGE",
+			"type": "primitiveType",
+			"dataType": "String",
+			"objectType": "",
+			"length": 50,
+			"scale": null,
+			"key": false,
+			"default": "",
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "STOPSALEDATE",
+			"type": "primitiveType",
+			"dataType": "UTCTimestamp",
+			"objectType": "",
+			"length": null,
+			"scale": null,
+			"key": false,
+			"default": "1900-01-01 00:00:00",
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "PRODUCTSUBCATEGORYKEY",
+			"type": "primitiveType",
+			"dataType": "Integer",
+			"objectType": "",
+			"length": null,
+			"scale": null,
+			"key": false,
+			"default": 0,
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "SIZEUNITMEASUREID",
+			"type": "primitiveType",
+			"dataType": "String",
+			"objectType": "",
+			"length": 20,
+			"scale": null,
+			"key": false,
+			"default": "",
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "STATUS",
+			"type": "primitiveType",
+			"dataType": "String",
+			"objectType": "",
+			"length": 7,
+			"scale": null,
+			"key": false,
+			"default": "",
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "MANUFACTURER",
+			"type": "primitiveType",
+			"dataType": "String",
+			"objectType": "",
+			"length": 50,
+			"scale": null,
+			"key": false,
+			"default": "",
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "WEIGHT",
+			"type": "primitiveType",
+			"dataType": "BinaryFloat",
+			"objectType": "",
+			"length": null,
+			"scale": null,
+			"key": false,
+			"default": 0,
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "IMAGEURL",
+			"type": "primitiveType",
+			"dataType": "String",
+			"objectType": "",
+			"length": 150,
+			"scale": null,
+			"key": false,
+			"default": "",
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "BRANDNAME",
+			"type": "primitiveType",
+			"dataType": "String",
+			"objectType": "",
+			"length": 50,
+			"scale": null,
+			"key": false,
+			"default": "",
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "WEIGHTUNITMEASUREID",
+			"type": "primitiveType",
+			"dataType": "String",
+			"objectType": "",
+			"length": 20,
+			"scale": null,
+			"key": false,
+			"default": "",
+			"aggregation": "NOP"
+		},
+		{
+			"queueAggregation": {
+				"inbound_queue_1": "MOVE"
+			},
+			"elements": [],
+			"name": "PRODUCTURL",
+			"type": "primitiveType",
+			"dataType": "String",
+			"objectType": "",
+			"length": 150,
+			"scale": null,
+			"key": false,
+			"default": "",
+			"aggregation": "NOP"
+		}
+	],
+	"activeData": {
+		"partitionSpec": "default"
+	},
+	"changeLog": {
+		"partitionSpec": "default"
+	},
+	"queues": [
+		{
+			"name": "inbound_queue_1",
+			"partitionSpec": "default"
+		}
+	],
+	"partitionSpec": {
+		"default": [
+			{
+				"type": "hash",
+				"elements": [
+					"PRODUCTKEY"
+				],
+				"partitions": -1,
+				"expression": "GET_NUM_SERVERS()"
+			}
+		]
+	}
+}

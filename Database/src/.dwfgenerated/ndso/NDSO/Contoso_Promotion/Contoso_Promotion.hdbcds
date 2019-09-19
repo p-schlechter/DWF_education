@@ -1,0 +1,287 @@
+namespace NDSO;
+using DataWarehouse.DataStore :: Structures.inboundQueueKey;
+using DataWarehouse.DataStore :: Structures.inboundQueueKeyProc;
+using DataWarehouse.DataStore :: Structures.inboundQueueAttributes;
+using DataWarehouse.DataStore :: Structures.changeLogKey;
+using DataWarehouse.DataStore :: Structures.changeLogAttributes;
+using DataWarehouse.DataStore :: Structures.operationHistoryKey;
+using DataWarehouse.DataStore :: Structures.operationHistoryAttributes;
+using DataWarehouse.DataStore :: Structures.aggregationHistoryKey;
+using DataWarehouse.DataStore :: Structures.aggregationHistoryAttributes;
+using DataWarehouse.DataStore :: Structures.affectedRequestsKey;
+using DataWarehouse.DataStore :: Structures.logMessagesKey;
+using DataWarehouse.DataStore :: Structures.logMessagesAttributes;
+using DataWarehouse.DataStore :: Structures.subscribersKey;
+using DataWarehouse.DataStore :: Structures.subscribersAttributes;
+using DataWarehouse.DataStore :: Structures.runningOperationsKey;
+using DataWarehouse.DataStore :: Structures.idGeneratorKey;
+using DataWarehouse.DataStore :: Structures.idGeneratorAttributes;
+using DataWarehouse.DataStore :: Annotations as DataStore;
+
+context Contoso_Promotion {
+    
+    @DataStore.isDSO
+    @DataStore.entity.activeData : 'active_data'
+    @DataStore.entity.changeLog : 'change_log'
+    @DataStore.entity.activationQueue : [ 'inbound_queue_1' ]
+    @DataStore.entity.operationHistory : 'operationHistory'
+    @DataStore.entity.aggregationHistory : 'aggregationHistory'
+    @DataStore.entity.logMessages : 'logMessages'
+    @DataStore.entity.affectedRequests : 'affectedRequests'
+    @DataStore.entity.subscribers : 'subscribers'
+    @DataStore.entity.runningOperations : 'runningOperations'
+    @DataStore.entity.idGenerator : 'idGen'
+    @DataStore.sequence : 'NDSO::Contoso_Promotion.sequence'
+    @DataStore.procedures : { LOAD: { name: 'NDSO::Contoso_Promotion.LOAD', ifVersion: '1.0' }, EXTRACT: { name: 'NDSO::Contoso_Promotion.EXTRACT', ifVersion: '1.0' } }
+    @DataStore.computeChecksum : false
+    @DataStore.snapshotSupport : false
+    context NDSO {
+        
+        @DataStore.entityCategory : #ACTIVE_DATA
+        entity active_data {
+            
+            @DataStore.aggregation : #NOP
+            DISCOUNTPERCENT : BinaryFloat not null;
+            
+            @DataStore.aggregation : #NOP
+            PROMOTIONTYPE : String(50) not null;
+            
+            @DataStore.aggregation : #NOP
+            PROMOTIONCATEGORY : String(50) not null;
+            
+            @DataStore.aggregation : #NOP
+            STARTDATE : UTCTimestamp not null default '1900-01-01 00:00:00';
+            
+            @DataStore.aggregation : #NOP
+            ENDDATE : UTCTimestamp not null default '1900-01-01 00:00:00';
+            
+            @DataStore.aggregation : #MAX
+            MINQUANTITY : Integer not null;
+            
+            @DataStore.aggregation : #MIN
+            MAXQUANTITY : Integer not null;
+            
+            @DataStore.aggregation : #NOP
+            key PROMOTIONKEY : Integer not null;
+            
+            @DataStore.aggregation : #NOP
+            ETLLOADID : Integer not null;
+            
+            @DataStore.aggregation : #NOP
+            PROMOTIONLABEL : String(100) not null;
+            
+            @DataStore.aggregation : #NOP
+            LOADDATE : UTCTimestamp not null default '1900-01-01 00:00:00';
+            
+            @DataStore.aggregation : #NOP
+            PROMOTIONNAME : String(100) not null;
+            
+            @DataStore.aggregation : #NOP
+            UPDATEDATE : UTCTimestamp not null default '1900-01-01 00:00:00';
+            
+            @DataStore.aggregation : #NOP
+            PROMOTIONDESCRIPTION : String(255) not null;
+        }
+        technical configuration {
+            group name Contoso_Promotion group type "sap.dwf.dso" group subtype ACTIVE;
+            partition by hash (PROMOTIONKEY) partitions GET_NUM_SERVERS();
+        };
+        
+        
+        @DataStore.entityCategory : #ACTIVATION_QUEUE
+        entity inbound_queue_1 {
+            key technicalKey : inboundQueueKey;
+            technicalAttributes : inboundQueueAttributes not null;
+            
+            @DataStore.aggregation : #MOV
+            DISCOUNTPERCENT : BinaryFloat not null;
+            
+            @DataStore.aggregation : #MOV
+            PROMOTIONTYPE : String(50) not null;
+            
+            @DataStore.aggregation : #MOV
+            PROMOTIONCATEGORY : String(50) not null;
+            
+            @DataStore.aggregation : #MOV
+            STARTDATE : UTCTimestamp not null default '1900-01-01 00:00:00';
+            
+            @DataStore.aggregation : #MOV
+            ENDDATE : UTCTimestamp not null default '1900-01-01 00:00:00';
+            
+            @DataStore.aggregation : #MOV
+            MINQUANTITY : Integer not null;
+            
+            @DataStore.aggregation : #MOV
+            MAXQUANTITY : Integer not null;
+            
+            @DataStore.aggregation : #MOV
+            key PROMOTIONKEY : Integer not null;
+            
+            @DataStore.aggregation : #MOV
+            ETLLOADID : Integer not null;
+            
+            @DataStore.aggregation : #MOV
+            PROMOTIONLABEL : String(100) not null;
+            
+            @DataStore.aggregation : #MOV
+            LOADDATE : UTCTimestamp not null default '1900-01-01 00:00:00';
+            
+            @DataStore.aggregation : #MOV
+            PROMOTIONNAME : String(100) not null;
+            
+            @DataStore.aggregation : #MOV
+            UPDATEDATE : UTCTimestamp not null default '1900-01-01 00:00:00';
+            
+            @DataStore.aggregation : #MOV
+            PROMOTIONDESCRIPTION : String(255) not null;
+        }
+        technical configuration {
+            group name Contoso_Promotion group type "sap.dwf.dso" group subtype QUEUE;
+            partition by hash (PROMOTIONKEY) partitions GET_NUM_SERVERS();
+        };
+        
+        
+        @DataStore.entityCategory : #CHANGE_LOG
+        entity change_log {
+            key technicalKey : changeLogKey;
+            technicalAttributes : changeLogAttributes not null;
+            
+            
+            DISCOUNTPERCENT : BinaryFloat not null;
+            
+            
+            PROMOTIONTYPE : String(50) not null;
+            
+            
+            PROMOTIONCATEGORY : String(50) not null;
+            
+            
+            STARTDATE : UTCTimestamp not null default '1900-01-01 00:00:00';
+            
+            
+            ENDDATE : UTCTimestamp not null default '1900-01-01 00:00:00';
+            
+            
+            MINQUANTITY : Integer not null;
+            
+            
+            MAXQUANTITY : Integer not null;
+            
+            
+            key PROMOTIONKEY : Integer not null;
+            
+            
+            ETLLOADID : Integer not null;
+            
+            
+            PROMOTIONLABEL : String(100) not null;
+            
+            
+            LOADDATE : UTCTimestamp not null default '1900-01-01 00:00:00';
+            
+            
+            PROMOTIONNAME : String(100) not null;
+            
+            
+            UPDATEDATE : UTCTimestamp not null default '1900-01-01 00:00:00';
+            
+            
+            PROMOTIONDESCRIPTION : String(255) not null;
+        }
+        technical configuration {
+            group name Contoso_Promotion group type "sap.dwf.dso" group subtype CHANGE_LOG;
+            partition by hash (PROMOTIONKEY) partitions GET_NUM_SERVERS();
+        };
+        
+        
+        @DataStore.entityCategory : #LOG_MESSAGES
+        entity logMessages {
+            key technicalKey : logMessagesKey;
+            technicalAttributes : logMessagesAttributes;
+        };
+        
+        
+        @DataStore.entityCategory : #SUBSCRIBERS
+        entity subscribers {
+            key technicalKey : subscribersKey;
+            technicalAttributes : subscribersAttributes;
+        };
+        
+        
+        @DataStore.entityCategory : #OPERATION_HISTORY
+        entity operationHistory {
+            key technicalKey : operationHistoryKey;
+            technicalAttributes : operationHistoryAttributes;
+        };
+        
+        
+        @DataStore.entityCategory : #AFFECTED_REQUESTS
+        entity affectedRequests {
+            key technicalKey : affectedRequestsKey;
+        };
+        
+        
+        @DataStore.entityCategory : #AGGREGATION_HISTORY
+        entity aggregationHistory {
+            key technicalKey : aggregationHistoryKey;
+            technicalAttributes : aggregationHistoryAttributes;
+        };
+        
+        
+        @DataStore.entityCategory : #RUNNING_OPERATIONS
+        entity runningOperations {
+            key technicalKey : runningOperationsKey;
+        };
+        
+        
+        @DataStore.entityCategory : #ID_GENERATOR
+        entity idGen {
+            key technicalKey : idGeneratorKey;
+            technicalAttributes : idGeneratorAttributes;
+        };
+        
+    
+        table type extractProcOutput {
+            technicalKey : changeLogKey;
+            technicalAttributes : changeLogAttributes;
+            DISCOUNTPERCENT : BinaryFloat;
+            PROMOTIONTYPE : String(50);
+            PROMOTIONCATEGORY : String(50);
+            STARTDATE : UTCTimestamp;
+            ENDDATE : UTCTimestamp;
+            MINQUANTITY : Integer;
+            MAXQUANTITY : Integer;
+            PROMOTIONKEY : Integer;
+            ETLLOADID : Integer;
+            PROMOTIONLABEL : String(100);
+            LOADDATE : UTCTimestamp;
+            PROMOTIONNAME : String(100);
+            UPDATEDATE : UTCTimestamp;
+            PROMOTIONDESCRIPTION : String(255);
+        };
+    
+    
+        table type loadProcInput {
+            technicalKey : inboundQueueKeyProc;
+            technicalAttributes : inboundQueueAttributes;
+            DISCOUNTPERCENT : BinaryFloat;
+            PROMOTIONTYPE : String(50);
+            PROMOTIONCATEGORY : String(50);
+            STARTDATE : UTCTimestamp;
+            ENDDATE : UTCTimestamp;
+            MINQUANTITY : Integer;
+            MAXQUANTITY : Integer;
+            PROMOTIONKEY : Integer;
+            ETLLOADID : Integer;
+            PROMOTIONLABEL : String(100);
+            LOADDATE : UTCTimestamp;
+            PROMOTIONNAME : String(100);
+            UPDATEDATE : UTCTimestamp;
+            PROMOTIONDESCRIPTION : String(255);
+        };
+    
+    
+    
+    };
+
+};
