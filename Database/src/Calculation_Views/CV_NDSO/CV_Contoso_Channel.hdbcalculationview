@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" id="DataWareHouse.Database.Calculation_Views.CV_NDSO::CV_Contoso_Channel" applyPrivilegeType="NONE" dataCategory="DIMENSION" dimensionType="STANDARD" schemaVersion="3.0" outputViewType="Projection" cacheInvalidationPeriod="NONE" enforceSqlExecution="false">
+<descriptions defaultDescription="Contoso_Channel"/>
+<localVariables/>
+<variableMappings/>
+<dataSources>
+  <DataSource id="NDSO::Contoso_Channel.NDSO.active_data">
+    <resourceUri>NDSO::Contoso_Channel.NDSO.active_data</resourceUri>
+  </DataSource>
+</dataSources>
+<calculationViews/>
+<logicalModel id="NDSO::Contoso_Channel.NDSO.active_data">
+  <attributes>
+    <attribute id="CHANNELKEY" order="1" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="CHANNELKEY"/>
+      <keyMapping columnObjectName="Contoso_Channel.NDSO.active_data" columnName="CHANNELKEY"/>
+    </attribute>
+    <attribute id="CHANNELLABEL" order="2" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="CHANNELLABEL"/>
+      <keyMapping columnObjectName="Contoso_Channel.NDSO.active_data" columnName="CHANNELLABEL"/>
+    </attribute>
+    <attribute id="CHANNELNAME" order="3" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="CHANNELNAME"/>
+      <keyMapping columnObjectName="Contoso_Channel.NDSO.active_data" columnName="CHANNELNAME"/>
+    </attribute>
+    <attribute id="CHANNELDESCRIPTION" order="4" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="CHANNELDESCRIPTION"/>
+      <keyMapping columnObjectName="Contoso_Channel.NDSO.active_data" columnName="CHANNELDESCRIPTION"/>
+    </attribute>
+    <attribute id="ETLLOADID" order="5" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="ETLLOADID"/>
+      <keyMapping columnObjectName="Contoso_Channel.NDSO.active_data" columnName="ETLLOADID"/>
+    </attribute>
+    <attribute id="LOADDATE" order="6" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="LOADDATE"/>
+      <keyMapping columnObjectName="Contoso_Channel.NDSO.active_data" columnName="LOADDATE"/>
+    </attribute>
+    <attribute id="UPDATEDATE" order="7" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="UPDATEDATE"/>
+      <keyMapping columnObjectName="Contoso_Channel.NDSO.active_data" columnName="UPDATEDATE"/>
+    </attribute>
+  </attributes>
+  <calculatedAttributes/>
+  <baseMeasures/>
+  <calculatedMeasures/>
+  <restrictedMeasures/>
+</logicalModel>
+<layout>
+  <shapes>
+    <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+      <upperLeftCorner x="40" y="85"/>
+    </shape>
+  </shapes>
+</layout>
+</Calculation:scenario>

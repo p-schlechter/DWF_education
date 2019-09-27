@@ -91,7 +91,7 @@
 			"scale": null,
 			"key": false,
 			"default": 0,
-			"aggregation": "MAX"
+			"aggregation": "NOP"
 		},
 		{
 			"queueAggregation": {
@@ -106,7 +106,7 @@
 			"scale": null,
 			"key": false,
 			"default": 0,
-			"aggregation": "MIN"
+			"aggregation": "NOP"
 		},
 		{
 			"queueAggregation": {

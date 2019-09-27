@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" id="DataWareHouse.Database.Calculation_Views.CV_NDSO::CV_Contoso_Sales" applyPrivilegeType="NONE" dataCategory="CUBE" schemaVersion="3.0" outputViewType="Aggregation" cacheInvalidationPeriod="NONE" enforceSqlExecution="false">
+<descriptions defaultDescription="onto"/>
+<localVariables/>
+<variableMappings/>
+<dataSources>
+  <DataSource id="NDSO::Contoso_Sales.NDSO.active_data">
+    <resourceUri>NDSO::Contoso_Sales.NDSO.active_data</resourceUri>
+  </DataSource>
+</dataSources>
+<calculationViews/>
+<logicalModel id="NDSO::Contoso_Sales.NDSO.active_data">
+  <attributes>
+    <attribute id="PROMOTIONKEY" order="1" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="PROMOTIONKEY"/>
+      <keyMapping columnObjectName="Contoso_Sales.NDSO.active_data" columnName="PROMOTIONKEY"/>
+    </attribute>
+    <attribute id="ETLLOADID" order="2" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="ETLLOADID"/>
+      <keyMapping columnObjectName="Contoso_Sales.NDSO.active_data" columnName="ETLLOADID"/>
+    </attribute>
+    <attribute id="CURRENCYKEY" order="3" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="CURRENCYKEY"/>
+      <keyMapping columnObjectName="Contoso_Sales.NDSO.active_data" columnName="CURRENCYKEY"/>
+    </attribute>
+    <attribute id="LOADDATE" order="4" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="LOADDATE"/>
+      <keyMapping columnObjectName="Contoso_Sales.NDSO.active_data" columnName="LOADDATE"/>
+    </attribute>
+    <attribute id="UNITCOST" order="5" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="UNITCOST"/>
+      <keyMapping columnObjectName="Contoso_Sales.NDSO.active_data" columnName="UNITCOST"/>
+    </attribute>
+    <attribute id="UPDATEDATE" order="6" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="UPDATEDATE"/>
+      <keyMapping columnObjectName="Contoso_Sales.NDSO.active_data" columnName="UPDATEDATE"/>
+    </attribute>
+    <attribute id="UNITPRICE" order="7" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="UNITPRICE"/>
+      <keyMapping columnObjectName="Contoso_Sales.NDSO.active_data" columnName="UNITPRICE"/>
+    </attribute>
+    <attribute id="SALESKEY" order="10" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="SALESKEY"/>
+      <keyMapping columnObjectName="Contoso_Sales.NDSO.active_data" columnName="SALESKEY"/>
+    </attribute>
+    <attribute id="DATEKEY" order="12" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="DATEKEY"/>
+      <keyMapping columnObjectName="Contoso_Sales.NDSO.active_data" columnName="DATEKEY"/>
+    </attribute>
+    <attribute id="CHANNELKEY" order="14" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="CHANNELKEY"/>
+      <keyMapping columnObjectName="Contoso_Sales.NDSO.active_data" columnName="CHANNELKEY"/>
+    </attribute>
+    <attribute id="STOREKEY" order="16" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="STOREKEY"/>
+      <keyMapping columnObjectName="Contoso_Sales.NDSO.active_data" columnName="STOREKEY"/>
+    </attribute>
+    <attribute id="PRODUCTKEY" order="18" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="PRODUCTKEY"/>
+      <keyMapping columnObjectName="Contoso_Sales.NDSO.active_data" columnName="PRODUCTKEY"/>
+    </attribute>
+  </attributes>
+  <calculatedAttributes/>
+  <baseMeasures>
+    <measure id="SALESQUANTITY" order="8" aggregationType="sum" measureType="simple">
+      <descriptions defaultDescription="SALESQUANTITY"/>
+      <measureMapping columnObjectName="Contoso_Sales.NDSO.active_data" columnName="SALESQUANTITY"/>
+    </measure>
+    <measure id="RETURNQUANTITY" order="9" aggregationType="sum" measureType="simple">
+      <descriptions defaultDescription="RETURNQUANTITY"/>
+      <measureMapping columnObjectName="Contoso_Sales.NDSO.active_data" columnName="RETURNQUANTITY"/>
+    </measure>
+    <measure id="RETURNAMOUNT" order="11" aggregationType="sum" measureType="simple">
+      <descriptions defaultDescription="RETURNAMOUNT"/>
+      <measureMapping columnObjectName="Contoso_Sales.NDSO.active_data" columnName="RETURNAMOUNT"/>
+    </measure>
+    <measure id="DISCOUNTQUANTITY" order="13" aggregationType="sum" measureType="simple">
+      <descriptions defaultDescription="DISCOUNTQUANTITY"/>
+      <measureMapping columnObjectName="Contoso_Sales.NDSO.active_data" columnName="DISCOUNTQUANTITY"/>
+    </measure>
+    <measure id="DISCOUNTAMOUNT" order="15" aggregationType="sum" measureType="simple">
+      <descriptions defaultDescription="DISCOUNTAMOUNT"/>
+      <measureMapping columnObjectName="Contoso_Sales.NDSO.active_data" columnName="DISCOUNTAMOUNT"/>
+    </measure>
+    <measure id="TOTALCOST" order="17" aggregationType="sum" measureType="simple">
+      <descriptions defaultDescription="TOTALCOST"/>
+      <measureMapping columnObjectName="Contoso_Sales.NDSO.active_data" columnName="TOTALCOST"/>
+    </measure>
+    <measure id="SALESAMOUNT" order="19" aggregationType="sum" measureType="simple">
+      <descriptions defaultDescription="SALESAMOUNT"/>
+      <measureMapping columnObjectName="Contoso_Sales.NDSO.active_data" columnName="SALESAMOUNT"/>
+    </measure>
+  </baseMeasures>
+  <calculatedMeasures/>
+  <restrictedMeasures/>
+  <localDimensions/>
+</logicalModel>
+<layout>
+  <shapes>
+    <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+      <upperLeftCorner x="40" y="85"/>
+    </shape>
+  </shapes>
+</layout>
+</Calculation:scenario>

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" id="DataWareHouse.Database.Calculation_Views.CV_NDSO::CV_Contoso_Product" applyPrivilegeType="NONE" dataCategory="DIMENSION" dimensionType="STANDARD" schemaVersion="3.0" outputViewType="Projection" cacheInvalidationPeriod="NONE" enforceSqlExecution="false">
+<descriptions defaultDescription="CV_Contoso_Product"/>
+<localVariables/>
+<variableMappings/>
+<dataSources>
+  <DataSource id="NDSO::Contoso_Product.NDSO.active_data">
+    <resourceUri>NDSO::Contoso_Product.NDSO.active_data</resourceUri>
+  </DataSource>
+</dataSources>
+<calculationViews/>
+<logicalModel id="NDSO::Contoso_Product.NDSO.active_data">
+  <attributes>
+    <attribute id="CLASSID" order="1" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="CLASSID"/>
+      <keyMapping columnObjectName="Contoso_Product.NDSO.active_data" columnName="CLASSID"/>
+    </attribute>
+    <attribute id="UNITOFMEASUREID" order="2" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="UNITOFMEASUREID"/>
+      <keyMapping columnObjectName="Contoso_Product.NDSO.active_data" columnName="UNITOFMEASUREID"/>
+    </attribute>
+    <attribute id="ETLLOADID" order="3" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="ETLLOADID"/>
+      <keyMapping columnObjectName="Contoso_Product.NDSO.active_data" columnName="ETLLOADID"/>
+    </attribute>
+    <attribute id="CLASSNAME" order="4" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="CLASSNAME"/>
+      <keyMapping columnObjectName="Contoso_Product.NDSO.active_data" columnName="CLASSNAME"/>
+    </attribute>
+    <attribute id="UNITOFMEASURENAME" order="5" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="UNITOFMEASURENAME"/>
+      <keyMapping columnObjectName="Contoso_Product.NDSO.active_data" columnName="UNITOFMEASURENAME"/>
+    </attribute>
+    <attribute id="LOADDATE" order="6" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="LOADDATE"/>
+      <keyMapping columnObjectName="Contoso_Product.NDSO.active_data" columnName="LOADDATE"/>
+    </attribute>
+    <attribute id="STYLEID" order="7" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="STYLEID"/>
+      <keyMapping columnObjectName="Contoso_Product.NDSO.active_data" columnName="STYLEID"/>
+    </attribute>
+    <attribute id="STOCKTYPEID" order="8" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="STOCKTYPEID"/>
+      <keyMapping columnObjectName="Contoso_Product.NDSO.active_data" columnName="STOCKTYPEID"/>
+    </attribute>
+    <attribute id="UPDATEDATE" order="9" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="UPDATEDATE"/>
+      <keyMapping columnObjectName="Contoso_Product.NDSO.active_data" columnName="UPDATEDATE"/>
+    </attribute>
+    <attribute id="STYLENAME" order="10" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="STYLENAME"/>
+      <keyMapping columnObjectName="Contoso_Product.NDSO.active_data" columnName="STYLENAME"/>
+    </attribute>
+    <attribute id="STOCKTYPENAME" order="11" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="STOCKTYPENAME"/>
+      <keyMapping columnObjectName="Contoso_Product.NDSO.active_data" columnName="STOCKTYPENAME"/>
+    </attribute>
+    <attribute id="PRODUCTKEY" order="12" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="PRODUCTKEY"/>
+      <keyMapping columnObjectName="Contoso_Product.NDSO.active_data" columnName="PRODUCTKEY"/>
+    </attribute>
+    <attribute id="COLORID" order="13" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="COLORID"/>
+      <keyMapping columnObjectName="Contoso_Product.NDSO.active_data" columnName="COLORID"/>
+    </attribute>
+    <attribute id="UNITCOST" order="14" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="UNITCOST"/>
+      <keyMapping columnObjectName="Contoso_Product.NDSO.active_data" columnName="UNITCOST"/>
+    </attribute>
+    <attribute id="PRODUCTLABEL" order="15" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="PRODUCTLABEL"/>
+      <keyMapping columnObjectName="Contoso_Product.NDSO.active_data" columnName="PRODUCTLABEL"/>
+    </attribute>
+    <attribute id="COLORNAME" order="16" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="COLORNAME"/>
+      <keyMapping columnObjectName="Contoso_Product.NDSO.active_data" columnName="COLORNAME"/>
+    </attribute>
+    <attribute id="UNITPRICE" order="17" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="UNITPRICE"/>
+      <keyMapping columnObjectName="Contoso_Product.NDSO.active_data" columnName="UNITPRICE"/>
+    </attribute>
+    <attribute id="PRODUCTNAME" order="18" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="PRODUCTNAME"/>
+      <keyMapping columnObjectName="Contoso_Product.NDSO.active_data" columnName="PRODUCTNAME"/>
+    </attribute>
+    <attribute id="SIZE" order="19" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="SIZE"/>
+      <keyMapping columnObjectName="Contoso_Product.NDSO.active_data" columnName="SIZE"/>
+    </attribute>
+    <attribute id="AVAILABLEFORSALEDATE" order="20" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="AVAILABLEFORSALEDATE"/>
+      <keyMapping columnObjectName="Contoso_Product.NDSO.active_data" columnName="AVAILABLEFORSALEDATE"/>
+    </attribute>
+    <attribute id="PRODUCTDESCRIPTION" order="21" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="PRODUCTDESCRIPTION"/>
+      <keyMapping columnObjectName="Contoso_Product.NDSO.active_data" columnName="PRODUCTDESCRIPTION"/>
+    </attribute>
+    <attribute id="SIZERANGE" order="22" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="SIZERANGE"/>
+      <keyMapping columnObjectName="Contoso_Product.NDSO.active_data" columnName="SIZERANGE"/>
+    </attribute>
+    <attribute id="STOPSALEDATE" order="23" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="STOPSALEDATE"/>
+      <keyMapping columnObjectName="Contoso_Product.NDSO.active_data" columnName="STOPSALEDATE"/>
+    </attribute>
+    <attribute id="PRODUCTSUBCATEGORYKEY" order="24" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="PRODUCTSUBCATEGORYKEY"/>
+      <keyMapping columnObjectName="Contoso_Product.NDSO.active_data" columnName="PRODUCTSUBCATEGORYKEY"/>
+    </attribute>
+    <attribute id="SIZEUNITMEASUREID" order="25" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="SIZEUNITMEASUREID"/>
+      <keyMapping columnObjectName="Contoso_Product.NDSO.active_data" columnName="SIZEUNITMEASUREID"/>
+    </attribute>
+    <attribute id="STATUS" order="26" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="STATUS"/>
+      <keyMapping columnObjectName="Contoso_Product.NDSO.active_data" columnName="STATUS"/>
+    </attribute>
+    <attribute id="MANUFACTURER" order="27" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="MANUFACTURER"/>
+      <keyMapping columnObjectName="Contoso_Product.NDSO.active_data" columnName="MANUFACTURER"/>
+    </attribute>
+    <attribute id="WEIGHT" order="28" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="WEIGHT"/>
+      <keyMapping columnObjectName="Contoso_Product.NDSO.active_data" columnName="WEIGHT"/>
+    </attribute>
+    <attribute id="IMAGEURL" order="29" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="IMAGEURL"/>
+      <keyMapping columnObjectName="Contoso_Product.NDSO.active_data" columnName="IMAGEURL"/>
+    </attribute>
+    <attribute id="BRANDNAME" order="30" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="BRANDNAME"/>
+      <keyMapping columnObjectName="Contoso_Product.NDSO.active_data" columnName="BRANDNAME"/>
+    </attribute>
+    <attribute id="WEIGHTUNITMEASUREID" order="31" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="WEIGHTUNITMEASUREID"/>
+      <keyMapping columnObjectName="Contoso_Product.NDSO.active_data" columnName="WEIGHTUNITMEASUREID"/>
+    </attribute>
+    <attribute id="PRODUCTURL" order="32" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="PRODUCTURL"/>
+      <keyMapping columnObjectName="Contoso_Product.NDSO.active_data" columnName="PRODUCTURL"/>
+    </attribute>
+  </attributes>
+  <calculatedAttributes/>
+  <baseMeasures/>
+  <calculatedMeasures/>
+  <restrictedMeasures/>
+</logicalModel>
+<layout>
+  <shapes>
+    <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+      <upperLeftCorner x="40" y="85"/>
+    </shape>
+  </shapes>
+</layout>
+</Calculation:scenario>

@@ -55,10 +55,10 @@ context Contoso_Promotion {
             @DataStore.aggregation : #NOP
             ENDDATE : UTCTimestamp not null default '1900-01-01 00:00:00';
             
-            @DataStore.aggregation : #MAX
+            @DataStore.aggregation : #NOP
             MINQUANTITY : Integer not null;
             
-            @DataStore.aggregation : #MIN
+            @DataStore.aggregation : #NOP
             MAXQUANTITY : Integer not null;
             
             @DataStore.aggregation : #NOP

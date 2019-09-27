@@ -1,0 +1,6 @@
+namespace "SourceData";
+
+entity RecordModeHeader {
+    key Number  	  : Integer not null;
+        RecordMode    : String(1);
+};

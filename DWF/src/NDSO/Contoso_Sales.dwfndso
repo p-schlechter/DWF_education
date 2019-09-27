@@ -196,7 +196,7 @@
 			"scale": null,
 			"key": false,
 			"default": 0,
-			"aggregation": "NOP"
+			"aggregation": "SUM"
 		},
 		{
 			"queueAggregation": {
@@ -226,7 +226,7 @@
 			"scale": null,
 			"key": false,
 			"default": 0,
-			"aggregation": "NOP"
+			"aggregation": "SUM"
 		},
 		{
 			"queueAggregation": {

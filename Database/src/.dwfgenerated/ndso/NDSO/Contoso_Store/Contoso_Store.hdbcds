@@ -64,7 +64,7 @@ context Contoso_Store {
             @DataStore.aggregation : #NOP
             STOREDESCRIPTION : String(300) not null;
             
-            @DataStore.aggregation : #SUM
+            @DataStore.aggregation : #NOP
             EMPLOYEECOUNT : Integer not null;
             
             @DataStore.aggregation : #NOP

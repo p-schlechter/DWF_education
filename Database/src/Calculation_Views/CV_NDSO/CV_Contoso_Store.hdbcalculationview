@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" id="DataWareHouse.Database.Calculation_Views.CV_NDSO::CV_Contoso_Store" applyPrivilegeType="NONE" dataCategory="DIMENSION" dimensionType="STANDARD" schemaVersion="3.0" outputViewType="Projection" cacheInvalidationPeriod="NONE" enforceSqlExecution="false">
+<descriptions defaultDescription="CV_Contoso_Store"/>
+<localVariables/>
+<variableMappings/>
+<dataSources>
+  <DataSource id="NDSO::Contoso_Store.NDSO.active_data">
+    <resourceUri>NDSO::Contoso_Store.NDSO.active_data</resourceUri>
+  </DataSource>
+</dataSources>
+<calculationViews/>
+<logicalModel id="NDSO::Contoso_Store.NDSO.active_data">
+  <attributes>
+    <attribute id="ZIPCODE" order="1" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="ZIPCODE"/>
+      <keyMapping columnObjectName="Contoso_Store.NDSO.active_data" columnName="ZIPCODE"/>
+    </attribute>
+    <attribute id="STOREMANAGER" order="2" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="STOREMANAGER"/>
+      <keyMapping columnObjectName="Contoso_Store.NDSO.active_data" columnName="STOREMANAGER"/>
+    </attribute>
+    <attribute id="CITY" order="3" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="CITY"/>
+      <keyMapping columnObjectName="Contoso_Store.NDSO.active_data" columnName="CITY"/>
+    </attribute>
+    <attribute id="STORETYPE" order="4" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="STORETYPE"/>
+      <keyMapping columnObjectName="Contoso_Store.NDSO.active_data" columnName="STORETYPE"/>
+    </attribute>
+    <attribute id="STREET" order="5" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="STREET"/>
+      <keyMapping columnObjectName="Contoso_Store.NDSO.active_data" columnName="STREET"/>
+    </attribute>
+    <attribute id="STORENAME" order="6" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="STORENAME"/>
+      <keyMapping columnObjectName="Contoso_Store.NDSO.active_data" columnName="STORENAME"/>
+    </attribute>
+    <attribute id="CLOSEREASON" order="7" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="CLOSEREASON"/>
+      <keyMapping columnObjectName="Contoso_Store.NDSO.active_data" columnName="CLOSEREASON"/>
+    </attribute>
+    <attribute id="STOREDESCRIPTION" order="8" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="STOREDESCRIPTION"/>
+      <keyMapping columnObjectName="Contoso_Store.NDSO.active_data" columnName="STOREDESCRIPTION"/>
+    </attribute>
+    <attribute id="EMPLOYEECOUNT" order="9" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="EMPLOYEECOUNT"/>
+      <keyMapping columnObjectName="Contoso_Store.NDSO.active_data" columnName="EMPLOYEECOUNT"/>
+    </attribute>
+    <attribute id="STATUS" order="10" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="STATUS"/>
+      <keyMapping columnObjectName="Contoso_Store.NDSO.active_data" columnName="STATUS"/>
+    </attribute>
+    <attribute id="SELLINGAREASIZE" order="11" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="SELLINGAREASIZE"/>
+      <keyMapping columnObjectName="Contoso_Store.NDSO.active_data" columnName="SELLINGAREASIZE"/>
+    </attribute>
+    <attribute id="OPENDATE" order="12" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="OPENDATE"/>
+      <keyMapping columnObjectName="Contoso_Store.NDSO.active_data" columnName="OPENDATE"/>
+    </attribute>
+    <attribute id="CLOSEDATE" order="13" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="CLOSEDATE"/>
+      <keyMapping columnObjectName="Contoso_Store.NDSO.active_data" columnName="CLOSEDATE"/>
+    </attribute>
+    <attribute id="STOREPHONE" order="14" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="STOREPHONE"/>
+      <keyMapping columnObjectName="Contoso_Store.NDSO.active_data" columnName="STOREPHONE"/>
+    </attribute>
+    <attribute id="STOREFAX" order="15" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="STOREFAX"/>
+      <keyMapping columnObjectName="Contoso_Store.NDSO.active_data" columnName="STOREFAX"/>
+    </attribute>
+    <attribute id="COUNTRY" order="16" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="COUNTRY"/>
+      <keyMapping columnObjectName="Contoso_Store.NDSO.active_data" columnName="COUNTRY"/>
+    </attribute>
+    <attribute id="STOREKEY" order="17" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="STOREKEY"/>
+      <keyMapping columnObjectName="Contoso_Store.NDSO.active_data" columnName="STOREKEY"/>
+    </attribute>
+  </attributes>
+  <calculatedAttributes/>
+  <baseMeasures/>
+  <calculatedMeasures/>
+  <restrictedMeasures/>
+</logicalModel>
+<layout>
+  <shapes>
+    <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+      <upperLeftCorner x="40" y="85"/>
+    </shape>
+  </shapes>
+</layout>
+</Calculation:scenario>

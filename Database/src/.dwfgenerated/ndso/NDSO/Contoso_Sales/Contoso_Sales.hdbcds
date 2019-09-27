@@ -76,13 +76,13 @@ context Contoso_Sales {
             @DataStore.aggregation : #NOP
             DATEKEY : UTCTimestamp not null default '1900-01-01 00:00:00';
             
-            @DataStore.aggregation : #NOP
+            @DataStore.aggregation : #SUM
             DISCOUNTQUANTITY : Integer not null;
             
             @DataStore.aggregation : #NOP
             CHANNELKEY : Integer not null;
             
-            @DataStore.aggregation : #NOP
+            @DataStore.aggregation : #SUM
             DISCOUNTAMOUNT : DecimalFloat not null;
             
             @DataStore.aggregation : #NOP
